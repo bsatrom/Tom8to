@@ -1,22 +1,72 @@
-﻿html, body {
+﻿@font-face {
+	font-family: 'Heydings';
+	src: url('/fonts/heydings_icons-webfont.woff') format('woff');
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('/fonts/fontawesome-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
 }
 
 body {
-    -ms-box-align: middle;
-    -ms-box-orient: vertical;
-    -ms-box-pack: center;
-    display: -ms-box;
+	display: -ms-grid;
+	-ms-grid-columns: 1fr;
+	-ms-grid-rows: 133px 1fr;
+}
+
+header[role=banner] {
+	display: -ms-grid;
+	-ms-grid-columns:  120px 1fr auto;
+	-ms-grid-rows: 133px 1fr;
+}
+
+header h1 {
+	-ms-grid-column: 2;
+  margin-top: 37px;
+}
+
+.eight {
+	color: rgba(149, 17, 17, 1);
+	font-weight: 800;
+	font-size-adjust: 2;
+}
+
+section[role="main"] {
+  -ms-grid-row: 2;
+	
+	-ms-box-align: middle;
+  -ms-box-orient: vertical;
+  -ms-box-pack: center;
+  display: -ms-box;
+	    
+	height: 100%;
+  width: 100%;
 }
 
 .fixedlayout {
+    display: -ms-grid;
     -ms-grid-columns: 1fr;
     -ms-grid-rows: 1fr;
-    display: -ms-grid;
-    height: 768px;
-    width: 1024px;
+}
+
+[class^="icon-"] {
+	font-size: 248pt;
+	color: rgba(149, 17, 17, 0.749);
+	text-align: center;
+}
+
+button.icon-play {
+	
 }
 
 @media screen and (-ms-view-state: fullscreen-landscape) {
@@ -26,7 +76,23 @@ body {
 }
 
 @media screen and (-ms-view-state: snapped) {
+	header[role=banner] {
+		-ms-grid-columns:  auto 1fr auto;
+	}
+
+	header h1 {
+		font-size:  30pt;
+	}
 }
 
 @media screen and (-ms-view-state: fullscreen-portrait) {
+	header[role=banner] {
+		-ms-grid-columns:  100px 1fr auto;
+	}
+}
+
+@media screen and (min-width: 1366px) and (min-height: 766px) {
+	[class^="icon-"] {
+		font-size: 500pt;
+	}
 }

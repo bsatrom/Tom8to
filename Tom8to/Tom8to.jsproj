@@ -49,7 +49,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="css\default.css" />
+    <Content Include="css\font-awesome.css" />
     <Content Include="default.html" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\heydings_icons-webfont.woff" />
+    <Content Include="fonts\heydings_icons.ttf" />
+    <Content Include="fonts\SIL Open Font License 1.1.txt" />
     <Content Include="images\logo.png" />
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
