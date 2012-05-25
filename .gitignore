@@ -64,6 +64,8 @@ local.properties
 *.vspscc
 .builds
 **/*.dotCover
+bld/
+*.pfx
 
 ## TODO: If you have NuGet Package Restore enabled, uncomment this
 #**/packages/ 
