@@ -31,7 +31,6 @@ header h1 {
 .eight {
 	color: rgba(149, 17, 17, 0.75);
 	font-weight: 800;
-	font-size-adjust: 2;
 }
 
 section[role="main"] {
@@ -56,6 +55,7 @@ section[role="main"] {
 	font-size: 300pt;
 	color: rgba(149, 17, 17, 0.75);
 	text-align: center;
+	margin: 10px;
 }
 
 .med {
@@ -70,6 +70,13 @@ section[role="main"] {
 	-ms-box-lines: multiple;
 }
 
+#playPause {
+	display: -ms-box;
+	-ms-box-align: middle;
+  -ms-box-orient: horizontal;
+  -ms-box-pack: center;
+}
+
 .hidden {
   opacity: 0;
 	display:  none;
@@ -82,8 +89,9 @@ section[role="main"] {
 	text-align: center;
 }
 
-.hidden [class^="icon-"] {
-		margin: 10px;
+#playContainer {
+	width:  148px;
+	text-align: right;
 }
 
 @media screen and (-ms-view-state: fullscreen-landscape) {

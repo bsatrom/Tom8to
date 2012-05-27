@@ -9,6 +9,18 @@
 	var _timer, _min, _textClass;
 	var _sec = 0;
 
+	var timerEvents = {
+		tick: function () {
+			Observer.publish('tick', _getTime());
+		},
+		breakTime: function () {
+			Observer.publish('break', BREAK_MINUTES);
+		},
+		complete: function () {
+			Observer.publish('complete');
+		}
+	};
+
 	function _getTime() {
 		if (_sec <= 9 && _sec !== "00") {
 			_sec = "0" + _sec;
@@ -32,8 +44,11 @@
 	
 	WinJS.Namespace.define("Countdown", {
 		initialize: function (minutes, textClass) {
+			_sec = 0;
 			_min = minutes || WORK_MINUTES;
 			_textClass = textClass || "segoe";
+
+			Observer.publish('init', _getTime());
 		},
 		time: function () { return _getTime() },
 		textClass: _textClass,
@@ -50,6 +65,7 @@
 		},
 		reset: function () {
 			this.stop();
+			this.initialize();
 			this.start();
 		}
 	});

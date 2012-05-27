@@ -1,13 +1,23 @@
 ﻿(function () {
     "use strict";
 
-    var play, pause, reset, playMed, hidden, timer;
+    var play, pause, reset, playSmall, hidden, timer, pauseContainer, playContainer;
     var app = WinJS.Application;
-    
-    app.onactivated = function (eventObject) {
+  
+    function populateDOMVariables() {
     	play = document.querySelector('#play');
+    	pause = document.querySelector('#pause');
+    	pauseContainer = document.querySelector('#pauseContainer');
+    	playSmall = document.querySelector('#playSmall');
+    	playContainer = document.querySelector('#playContainer');
+    	reset = document.querySelector('#reset');
+
     	hidden = document.querySelector('.hidden');
     	timer = document.querySelector('#timer');
+    }
+
+    app.onactivated = function (eventObject) {    	
+    	populateDOMVariables();
 
     	if (eventObject.detail.kind === Windows.ApplicationModel.Activation.ActivationKind.launch) {
     		if (eventObject.detail.previousExecutionState !== Windows.ApplicationModel.Activation.ApplicationExecutionState.terminated) {
@@ -18,17 +28,35 @@
     				timer.innerText = data;
 					});
 
+    			Observer.subscribe('init', function (topics, data) {
+    				timer.innerText = data;
+					});
+
     			play.addEventListener('click', function () {
     				UIController.transition(hidden, play);
     				Countdown.start();
+					});
+
+    			pause.addEventListener('click', function () {
+    				UIController.transition(playContainer, pauseContainer);
+    				Countdown.stop();
+					});
+
+    			playSmall.addEventListener('click', function () {
+    				UIController.transition(pauseContainer, playContainer);
+    				Countdown.start();
+    			});
+
+    			reset.addEventListener('click', function () {
+    				Countdown.reset();
     			});
     		}
 
     		Countdown.initialize();
     		timer.innerText = Coundown.time();
+				Share.initialize();
 
-    		Share.initialize();
-    		WinJS.UI.processAll();
+				WinJS.UI.processAll();
     	}
     };
 

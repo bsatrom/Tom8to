@@ -30,27 +30,28 @@
 					<div class="fixedlayout">
 						<div class="icon-play" id="play"></div>
 						<div class="countdown hidden">
-						  <div id="timer">25:00</div>
-							<div id="pause" class="icon-pause med"></div>
+						  <div id="timer"></div>
+							<div id="playContainer" class="hidden">
+								<div id="playSmall" class="icon-play med"></div>
+							</div>
+							<div id="pauseContainer">
+								<div id="pause" class="icon-pause med"></div>
+							</div>
 							<div id="reset" class="icon-refresh med"></div>
 						</div>
 					</div>
 			</div>
 		</section>
 
-		<div><audio id="buzzer" src="audio/alarmRing.mp3"></audio></div>
-
 		<!-- App Bar -->
     <div id="appBar" data-win-control="WinJS.UI.AppBar" aria-label="Command Bar"
-        data-win-options="{position:'bottom',transient:true,autoHide:0,lightDismiss:true}">
-        <button data-win-control="WinJS.UI.AppBarCommand" id="barReset" data-win-options="{id:'barReset', label:'Reset', icon:'refresh', section:'selection', tooltip:'Reset the Timer'}" >
+        data-win-options="">
+        <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'barReset', label:'Reset', icon:'refresh', section:'selection', tooltip:'Reset the Timer'}" >
         </button>
         <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'barStop', label:'Cancel', icon:'clear', section:'selection', tooltip:'Cancel the Timer'}">
         </button>
-        <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'alarmButton',label:'Change Alarm',icon:'audio',type:'flyout',flyout:'alarmFlyout', tooltip:'Change the Alarm Sound'}">
-        </button>
-        <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'changeFontButton',label:'Change Font',icon:'bold',type:'flyout',flyout:'changeFontFlyout', tooltip:'Change the Font'}">
-        </button>
     </div>
+
+		<div><audio id="buzzer" src="audio/alarmRing.mp3"></audio></div>
 </body>
 </html>
