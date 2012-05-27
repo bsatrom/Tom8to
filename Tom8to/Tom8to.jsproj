@@ -48,13 +48,15 @@
     <PackageCertificateThumbprint>BBFE308284E2088D707BD221B30350A6EC9100E0</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="audio\alarmRing.mp3" />
+    <Content Include="audio\ArenaBuzzer.mp3" />
+    <Content Include="audio\boing.mp3" />
+    <Content Include="audio\jazzTune.mp3" />
+    <Content Include="audio\siren.mp3" />
     <Content Include="css\default.css" />
     <Content Include="css\font-awesome.css" />
     <Content Include="default.html" />
     <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="fonts\heydings_icons-webfont.woff" />
-    <Content Include="fonts\heydings_icons.ttf" />
-    <Content Include="fonts\SIL Open Font License 1.1.txt" />
     <Content Include="images\logo.png" />
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
@@ -63,6 +65,11 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="js\default.js" />
+    <Content Include="js\observer.js" />
+    <Content Include="js\pomodoroTimer.js" />
+    <Content Include="js\share.js" />
+    <Content Include="js\timerModel.js" />
+    <Content Include="js\uiController.js" />
     <None Include="Tom8to_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,4 @@
 ﻿@font-face {
-	font-family: 'Heydings';
-	src: url('/fonts/heydings_icons-webfont.woff') format('woff');
-	font-style: normal;
-	font-weight: normal;
-}
-
-@font-face {
   font-family: 'FontAwesome';
   src: url('/fonts/fontawesome-webfont.woff') format('woff');
   font-weight: normal;
@@ -36,7 +29,7 @@ header h1 {
 }
 
 .eight {
-	color: rgba(149, 17, 17, 1);
+	color: rgba(149, 17, 17, 0.75);
 	font-weight: 800;
 	font-size-adjust: 2;
 }
@@ -60,13 +53,37 @@ section[role="main"] {
 }
 
 [class^="icon-"] {
-	font-size: 248pt;
-	color: rgba(149, 17, 17, 0.749);
+	font-size: 300pt;
+	color: rgba(149, 17, 17, 0.75);
 	text-align: center;
 }
 
-button.icon-play {
-	
+.med {
+	font-size: 124pt;
+}
+
+.countdown {
+	display: -ms-box;
+	-ms-box-align: middle;
+  -ms-box-orient: horizontal;
+  -ms-box-pack: center;
+	-ms-box-lines: multiple;
+}
+
+.hidden {
+  opacity: 0;
+	display:  none;
+}
+
+#timer {
+	font-size: 200pt;
+	font-weight: 800;
+	width: 100%;
+	text-align: center;
+}
+
+.hidden [class^="icon-"] {
+		margin: 10px;
 }
 
 @media screen and (-ms-view-state: fullscreen-landscape) {
@@ -77,11 +94,23 @@ button.icon-play {
 
 @media screen and (-ms-view-state: snapped) {
 	header[role=banner] {
-		-ms-grid-columns:  auto 1fr auto;
+		-ms-grid-columns:  10px 1fr auto;
 	}
 
 	header h1 {
 		font-size:  30pt;
+	}
+	
+	[class^="icon-"] {
+		font-size: 172pt;
+	}
+	
+	.med {
+		font-size: 48pt;
+	}
+
+	#timer {
+		font-size: 72pt;
 	}
 }
 
@@ -89,9 +118,13 @@ button.icon-play {
 	header[role=banner] {
 		-ms-grid-columns:  100px 1fr auto;
 	}
+	
+	#timer {
+		font-size: 184pt;
+	}
 }
 
-@media screen and (min-width: 1366px) and (min-height: 766px) {
+@media screen and (min-width: 1367px) and (min-height: 767px) {
 	[class^="icon-"] {
 		font-size: 500pt;
 	}

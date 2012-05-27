@@ -1,21 +1,35 @@
-﻿// For an introduction to the Fixed Layout template, see the following documentation:
-// http://go.microsoft.com/fwlink/?LinkId=232508
-(function () {
+﻿(function () {
     "use strict";
 
+    var play, pause, reset, playMed, hidden, timer;
     var app = WinJS.Application;
-
+    
     app.onactivated = function (eventObject) {
-        if (eventObject.detail.kind === Windows.ApplicationModel.Activation.ActivationKind.launch) {
-            if (eventObject.detail.previousExecutionState !== Windows.ApplicationModel.Activation.ApplicationExecutionState.terminated) {
-                // TODO: This application has been newly launched. Initialize 
-                // your application here.
-            } else {
-                // TODO: This application has been reactivated from suspension. 
-                // Restore application state here.
-            }
-            WinJS.UI.processAll();
-        }
+    	play = document.querySelector('#play');
+    	hidden = document.querySelector('.hidden');
+    	timer = document.querySelector('#timer');
+
+    	if (eventObject.detail.kind === Windows.ApplicationModel.Activation.ActivationKind.launch) {
+    		if (eventObject.detail.previousExecutionState !== Windows.ApplicationModel.Activation.ApplicationExecutionState.terminated) {
+
+    			UIController.initButtons(document.querySelectorAll("[class^='icon-']"));
+
+    			Observer.subscribe('tick', function (topics, data) {
+    				timer.innerText = data;
+					});
+
+    			play.addEventListener('click', function () {
+    				UIController.transition(hidden, play);
+    				Countdown.start();
+    			});
+    		}
+
+    		Countdown.initialize();
+    		timer.innerText = Coundown.time();
+
+    		Share.initialize();
+    		WinJS.UI.processAll();
+    	}
     };
 
     app.oncheckpoint = function (eventObject) {
@@ -26,6 +40,6 @@
         // asynchronous operation before your application is suspended, call
         // eventObject.setPromise(). 
     };
-
+	  
     app.start();
 })();
