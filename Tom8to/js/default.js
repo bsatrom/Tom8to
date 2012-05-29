@@ -33,6 +33,14 @@
     	}
     }
 
+    function resetToStart() {
+    	UIController.transition(pauseContainer, playContainer);
+    	UIController.transition(play, hidden);
+
+    	Countdown.stop();
+    	Countdown.initialize();
+    }
+
     app.onactivated = function (eventObject) {    	
     	populateDOMVariables();
 
@@ -48,6 +56,15 @@
     			Observer.subscribe('Timer.init', function (topics, data) {
     				timer.innerText = data;
 					});
+
+    			Observer.subscribe('Timer.end', function () {
+    				var alarm = document.querySelector('#alarm');
+    				alarm.play();
+
+    				// Flash 00:00 for 10 sec
+
+    				resetToStart();
+    			});
 
     			play.addEventListener('click', function () {
     				UIController.transition(hidden, play);
@@ -77,12 +94,7 @@
     			barCancel.addEventListener('click', function () {
     				appBar.winControl.hide();
 
-    				UIController.transition(pauseContainer, playContainer);
-    				UIController.transition(play, hidden);
-
-    				Countdown.stop();
-    				Countdown.initialize();
-
+    				resetToStart();
     				toggleAppBarButtons();
     			});
     		}
