@@ -10,14 +10,20 @@
 	var _sec = 0;
 
 	var timerEvents = {
+		init: function () {
+			Observer.publish('Timer.init', _getTime());
+		},
+		start: function () {
+			Observer.publish('Timer.start');
+		},
 		tick: function () {
-			Observer.publish('tick', _getTime());
+			Observer.publish('Timer.tick', _getTime());
 		},
 		breakTime: function () {
-			Observer.publish('break', BREAK_MINUTES);
+			Observer.publish('Timer.break', BREAK_MINUTES);
 		},
-		complete: function () {
-			Observer.publish('complete');
+		end: function () {
+			Observer.publish('Timer.end');
 		}
 	};
 
@@ -39,7 +45,7 @@
 			}
 		}
 
-		Observer.publish('tick', _getTime());
+		timerEvents.tick();
 	};
 	
 	WinJS.Namespace.define("Countdown", {
@@ -48,15 +54,17 @@
 			_min = minutes || WORK_MINUTES;
 			_textClass = textClass || "segoe";
 
-			Observer.publish('init', _getTime());
+			timerEvents.init();
 		},
 		time: function () { return _getTime() },
 		textClass: _textClass,
 		start: function () {
 			if (!_min || !_textClass) {
-				this.init();
+				this.initialize();
 			}
 			_timer = setInterval(_countDown, TIMEOUT);
+
+			timerEvents.start();
 		},
 		stop: function () {
 			if (_timer) {
@@ -65,6 +73,8 @@
 		},
 		reset: function () {
 			this.stop();
+			timerEvents.end();
+
 			this.initialize();
 			this.start();
 		}

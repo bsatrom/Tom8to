@@ -1,7 +1,8 @@
 ﻿(function () {
     "use strict";
 
-    var play, pause, reset, playSmall, hidden, timer, pauseContainer, playContainer;
+    var play, pause, reset, playSmall, hidden, timer, appBar,
+				barReset, barCancel, pauseContainer, playContainer;
     var app = WinJS.Application;
   
     function populateDOMVariables() {
@@ -14,6 +15,10 @@
 
     	hidden = document.querySelector('.hidden');
     	timer = document.querySelector('#timer');
+
+    	appBar = document.getElementById('appBar');
+    	barReset = document.querySelector('#barReset');
+    	barCancel = document.querySelector('#barCancel');
     }
 
     app.onactivated = function (eventObject) {    	
@@ -24,13 +29,21 @@
 
     			UIController.initButtons(document.querySelectorAll("[class^='icon-']"));
 
-    			Observer.subscribe('tick', function (topics, data) {
+    			Observer.subscribe('Timer.tick', function (topics, data) {
     				timer.innerText = data;
 					});
 
-    			Observer.subscribe('init', function (topics, data) {
+    			Observer.subscribe('Timer.init', function (topics, data) {
     				timer.innerText = data;
 					});
+
+    			Observer.subscribe('Timer.start', function () {
+    				var appBarButtons = document.querySelectorAll('button[data-win-control="WinJS.UI.AppBarCommand"]');
+
+    				for (var i = 0, len = appBarButtons.length; i < len; i++) {
+    					appBarButtons[i].removeAttribute('disabled');
+    				}
+    			});
 
     			play.addEventListener('click', function () {
     				UIController.transition(hidden, play);
@@ -49,11 +62,32 @@
 
     			reset.addEventListener('click', function () {
     				Countdown.reset();
+					});
+
+    			barReset.addEventListener('click', function () {
+						appBar.winControl.hide();
+    				Countdown.reset();
+					});
+
+    			barCancel.addEventListener('click', function () {
+    				appBar.winControl.hide();
+
+    				UIController.transition(pauseContainer, playContainer);
+    				UIController.transition(play, hidden);
+
+    				Countdown.stop();
+    				Countdown.initialize();
+
+    				var appBarButtons = document.querySelectorAll('button[data-win-control="WinJS.UI.AppBarCommand"]');
+
+    				for (var i = 0, len = appBarButtons.length; i < len; i++) {
+    					appBarButtons[i].setAttribute('disabled');
+    				}
     			});
     		}
 
     		Countdown.initialize();
-    		timer.innerText = Coundown.time();
+    		timer.innerText = Countdown.time();
 				Share.initialize();
 
 				WinJS.UI.processAll();

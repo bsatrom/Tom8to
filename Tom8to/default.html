@@ -45,10 +45,10 @@
 
 		<!-- App Bar -->
     <div id="appBar" data-win-control="WinJS.UI.AppBar" aria-label="Command Bar"
-        data-win-options="">
-        <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'barReset', label:'Reset', icon:'refresh', section:'selection', tooltip:'Reset the Timer'}" >
+        data-win-options="{transient:true,autoHide:0,sticky:false}">
+        <button data-win-control="WinJS.UI.AppBarCommand" id="barReset" disabled data-win-options="{label:'Reset', icon:'refresh', section:'selection', tooltip:'Reset the Timer'}" >
         </button>
-        <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'barStop', label:'Cancel', icon:'clear', section:'selection', tooltip:'Cancel the Timer'}">
+        <button data-win-control="WinJS.UI.AppBarCommand" id="barCancel" disabled data-win-options="{label:'Cancel', icon:'clear', section:'selection', tooltip:'Cancel the Timer'}">
         </button>
     </div>
 
