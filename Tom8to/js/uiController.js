@@ -15,7 +15,10 @@
 	WinJS.Namespace.define("UIController", {
 		transition: function (incoming, outgoing) {
 			animation.crossFade(incoming, outgoing).done(function () {
+				outgoing.setAttribute('disabled', '');
 				utils.addClass(outgoing, "hidden");
+
+				incoming.removeAttribute('disabled');
 				utils.removeClass(incoming, "hidden");
 			});
 		},

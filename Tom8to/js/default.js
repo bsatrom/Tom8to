@@ -21,6 +21,18 @@
     	barCancel = document.querySelector('#barCancel');
     }
 
+    function toggleAppBarButtons() {
+    	var appBarButtons = document.querySelectorAll('button[data-win-control="WinJS.UI.AppBarCommand"]');
+
+    	for (var i = 0, len = appBarButtons.length; i < len; i++) {
+    		if (appBarButtons[i].getAttribute('disabled') === '') {
+    			appBarButtons[i].removeAttribute('disabled');
+    		} else {
+    			appBarButtons[i].setAttribute('disabled', '');
+    		}
+    	}
+    }
+
     app.onactivated = function (eventObject) {    	
     	populateDOMVariables();
 
@@ -37,17 +49,10 @@
     				timer.innerText = data;
 					});
 
-    			Observer.subscribe('Timer.start', function () {
-    				var appBarButtons = document.querySelectorAll('button[data-win-control="WinJS.UI.AppBarCommand"]');
-
-    				for (var i = 0, len = appBarButtons.length; i < len; i++) {
-    					appBarButtons[i].removeAttribute('disabled');
-    				}
-    			});
-
     			play.addEventListener('click', function () {
     				UIController.transition(hidden, play);
     				Countdown.start();
+    				toggleAppBarButtons();
 					});
 
     			pause.addEventListener('click', function () {
@@ -78,11 +83,7 @@
     				Countdown.stop();
     				Countdown.initialize();
 
-    				var appBarButtons = document.querySelectorAll('button[data-win-control="WinJS.UI.AppBarCommand"]');
-
-    				for (var i = 0, len = appBarButtons.length; i < len; i++) {
-    					appBarButtons[i].setAttribute('disabled');
-    				}
+    				toggleAppBarButtons();
     			});
     		}
 
