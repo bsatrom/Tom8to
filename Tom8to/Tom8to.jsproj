@@ -57,15 +57,20 @@
     <Content Include="css\font-awesome.css" />
     <Content Include="default.html" />
     <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="html\helpFlyout.html" />
+    <Content Include="html\settingsFlyout.html" />
     <Content Include="images\logo.png" />
     <Content Include="images\smalllogo.png" />
+    <Content Include="images\smallTile.png" />
     <Content Include="images\splashscreen.png" />
     <Content Include="images\storelogo.png" />
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="images\widelogo.png" />
     <Content Include="js\default.js" />
     <Content Include="js\observer.js" />
+    <Content Include="js\settingsFlyout.js" />
     <Content Include="js\share.js" />
     <Content Include="js\timerModel.js" />
     <Content Include="js\uiController.js" />

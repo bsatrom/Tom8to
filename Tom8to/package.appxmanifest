@@ -17,7 +17,7 @@
   <Applications>
     <Application Id="App" StartPage="default.html">
       <VisualElements DisplayName="Tom8to" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="Tom8to" ForegroundText="light" BackgroundColor="#000000">
-        <DefaultTile ShowName="allLogos" />
+        <DefaultTile ShowName="logoOnly" WideLogo="images\widelogo.png" ShortName="Tom8to" />
         <SplashScreen Image="images\splashscreen.png" />
       </VisualElements>
     </Application>

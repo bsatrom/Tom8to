@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+      <title>App Settings Flyout</title>
+			<script src="../js/settingsFlyout.js"></script>
+    </head>
+    <body>
+			<div id="settingsDiv" data-win-control="WinJS.UI.SettingsFlyout" aria-label="App Settings Flyout" data-win-options="">
+          <div class="win-header">
+              <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
+              <div class="win-label">Settings</div>
+              <img src="../images/smallTile.png" style="position: absolute; right: 40px;"/>
+          </div>
+          <div class="win-content">
+              <br />
+							<h3>Tom8to App Settings</h3>
+              <div>These settings allow you to control the font and alarm sounds for this app.</div>
+              <div>
+									<br />
+                  <h3>Alarm Sound</h3>
+                  <select id="alarmSound" aria-label="Alarm select control">
+                      <option value="ArenaBuzzer">Arena Buzzer</option>
+                      <option selected value="alarmRing">Basic Alarm</option>
+                      <option value="boing">Boing</option>
+                      <option value="jazzTune">Jazz Tune</option>
+                      <option value="siren">Siren</option>
+                  </select>
+              </div>
+              <div>
+                <br />  
+								<h3>Alarm Font</h3>
+                  <select id="alarmFont" aria-label="Alarm font control">
+                      <option value="calibri">Calibri</option>
+											<option value="cambria">Cambria</option>
+                      <option value="consolas">Consolas</option>
+											<option value="gabriola">Gabriola</option>
+											<option value="impact">Impact</option>
+											<option value="palatino">Palatino</option>
+                      <option selected value="segoeUI">Segoe UI</option>
+                  </select>
+              </div>
+							<div>
+								<br />
+								<button id="resetDefaults">Reset Defaults</button>
+							</div>                                
+          </div>
+      </div>
+    </body>
+</html>

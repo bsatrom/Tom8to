@@ -73,8 +73,7 @@
 		},
 		reset: function () {
 			this.stop();
-			timerEvents.end();
-
+			
 			this.initialize();
 			this.start();
 		}

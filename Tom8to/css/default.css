@@ -94,6 +94,50 @@ section[role="main"] {
 	text-align: right;
 }
 
+.win-header {
+	background-color: rgba(149, 17, 17, 1);
+	color: #fff;
+}
+
+.win-header .win-backbutton {
+	color: #fff;
+	border-color: #fff;
+}
+
+.segoeUI {
+	font-family: 'Segoe UI';
+}
+
+.consolas {
+	font-family: Consolas;
+}
+
+.calibri {
+	font-family: Calibri;
+}
+
+.cambria {
+	font-family: Cambria;
+}
+
+.impact {
+	font-family: Impact;
+}
+
+.gabriola {
+	font-family: Gabriola;
+	-ms-font-feature-settings: "ss07" 1;
+	
+	margin-top: 10%;
+	margin-bottom: -10%;
+	font-size: 500px;
+}
+
+.palatino {
+	font-family: 'Palatino Linotype';
+	-ms-font-feature-settings: "dlig" 1, "lig" 1;
+}
+
 @media screen and (-ms-view-state: fullscreen-landscape) {
 }
 

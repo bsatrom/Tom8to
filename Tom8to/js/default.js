@@ -1,10 +1,12 @@
 ﻿(function () {
     "use strict";
 
-    var play, pause, reset, playSmall, hidden, timer, appBar,
-				barReset, barCancel, pauseContainer, playContainer;
+    var play, pause, reset, playSmall, hidden, timer, appBar, barReset,
+				barCancel, pauseContainer, playContainer, alarm;
     var app = WinJS.Application;
-  
+    var appData = Windows.Storage.ApplicationData.current;
+    var container = appData.roamingSettings.createContainer("Tom8toSettings", Windows.Storage.ApplicationDataCreateDisposition.always);
+
     function populateDOMVariables() {
     	play = document.querySelector('#play');
     	pause = document.querySelector('#pause');
@@ -19,6 +21,21 @@
     	appBar = document.getElementById('appBar');
     	barReset = document.querySelector('#barReset');
     	barCancel = document.querySelector('#barCancel');
+
+    	alarm = document.querySelector('#alarm');    				
+    }
+
+    function applySettings() {
+    	if (!container.values["alarmSound"]) {
+    		container.values["alarmSound"] = "alarmRing";
+			}
+
+    	if (!container.values["alarmFont"]) {
+    		container.values["alarmFont"] = "segoeUI";
+    	}
+
+    	alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
+    	timer.className = container.values["alarmFont"];
     }
 
     function toggleAppBarButtons() {
@@ -41,70 +58,80 @@
     	Countdown.initialize();
     }
 
+    function timerSubscriptions() {
+    	Observer.subscribe('Timer.tick', function (topics, data) {
+    		timer.innerText = data;
+    	});
+
+    	Observer.subscribe('Timer.init', function (topics, data) {
+    		timer.innerText = data;
+    	});
+
+    	Observer.subscribe('Timer.end', function () {
+    		alarm.play();
+
+    		// Flash 00:00 for 10 sec
+
+    		resetToStart();
+    	});
+    }
+
+    function settingsSubscriptions() {
+    	Observer.subscribe('Settings.AlarmChange', function () {
+    		alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
+    	});
+
+    	Observer.subscribe('Settings.FontChange', function () {
+    		timer.className = container.values["alarmFont"];
+    	});
+    }
+
     app.onactivated = function (eventObject) {    	
     	populateDOMVariables();
+    	applySettings();
 
-    	if (eventObject.detail.kind === Windows.ApplicationModel.Activation.ActivationKind.launch) {
-    		if (eventObject.detail.previousExecutionState !== Windows.ApplicationModel.Activation.ApplicationExecutionState.terminated) {
+    	UIController.initButtons(document.querySelectorAll("[class^='icon-']"));
+			
+    	timerSubscriptions();
+    	settingsSubscriptions();
 
-    			UIController.initButtons(document.querySelectorAll("[class^='icon-']"));
+    	play.addEventListener('click', function () {
+    		UIController.transition(hidden, play);
+    		Countdown.start();
+    		toggleAppBarButtons();
+			});
 
-    			Observer.subscribe('Timer.tick', function (topics, data) {
-    				timer.innerText = data;
-					});
+    	pause.addEventListener('click', function () {
+    		UIController.transition(playContainer, pauseContainer);
+    		Countdown.stop();
+			});
 
-    			Observer.subscribe('Timer.init', function (topics, data) {
-    				timer.innerText = data;
-					});
+    	playSmall.addEventListener('click', function () {
+    		UIController.transition(pauseContainer, playContainer);
+    		Countdown.start();
+    	});
 
-    			Observer.subscribe('Timer.end', function () {
-    				var alarm = document.querySelector('#alarm');
-    				alarm.play();
+    	reset.addEventListener('click', function () {
+    		Countdown.reset();
+			});
 
-    				// Flash 00:00 for 10 sec
+    	barReset.addEventListener('click', function () {
+				appBar.winControl.hide();
+    		Countdown.reset();
+			});
 
-    				resetToStart();
-    			});
+    	barCancel.addEventListener('click', function () {
+    		appBar.winControl.hide();
 
-    			play.addEventListener('click', function () {
-    				UIController.transition(hidden, play);
-    				Countdown.start();
-    				toggleAppBarButtons();
-					});
+    		resetToStart();
+    		toggleAppBarButtons();
+			});
+			
+    	Countdown.initialize();
+    	timer.innerText = Countdown.time();
+			Share.initialize();
 
-    			pause.addEventListener('click', function () {
-    				UIController.transition(playContainer, pauseContainer);
-    				Countdown.stop();
-					});
-
-    			playSmall.addEventListener('click', function () {
-    				UIController.transition(pauseContainer, playContainer);
-    				Countdown.start();
-    			});
-
-    			reset.addEventListener('click', function () {
-    				Countdown.reset();
-					});
-
-    			barReset.addEventListener('click', function () {
-						appBar.winControl.hide();
-    				Countdown.reset();
-					});
-
-    			barCancel.addEventListener('click', function () {
-    				appBar.winControl.hide();
-
-    				resetToStart();
-    				toggleAppBarButtons();
-    			});
-    		}
-
-    		Countdown.initialize();
-    		timer.innerText = Countdown.time();
-				Share.initialize();
-
-				WinJS.UI.processAll();
-    	}
+			WinJS.UI.processAll();
     };
 
     app.oncheckpoint = function (eventObject) {
@@ -116,5 +143,11 @@
         // eventObject.setPromise(). 
     };
 	  
+    WinJS.Application.onsettings = function (e) {
+    	e.detail.applicationcommands = { "helpDiv": { title: "Help", href: "/html/helpFlyout.html" }, 
+    		"settingsDiv": { title: "Settings", href: "/html/settingsFlyout.html" } };
+    	WinJS.UI.SettingsFlyout.populateSettings(e);
+    };
+
     app.start();
 })();
