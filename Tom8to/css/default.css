@@ -70,6 +70,10 @@ section[role="main"] {
 	-ms-box-lines: multiple;
 }
 
+#playMain {
+	text-align: center;
+}
+
 #playPause {
 	display: -ms-box;
 	-ms-box-align: middle;
@@ -189,6 +193,11 @@ section[role="main"] {
 		font-size: 200pt;
 	}
 	
+	#playContainer {
+		width:  225px;
+		text-align: right;
+	}
+	
 	#timer {
 		font-size: 300pt;
 	}
@@ -201,6 +210,11 @@ section[role="main"] {
 	
 	.med {
 		font-size: 300pt;
+	}
+	
+	#playContainer {
+		width:  328px;
+		text-align: right;
 	}
 	
 	#timer {

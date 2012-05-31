@@ -87,10 +87,10 @@
 				clearInterval(_timer);
 			}
 		},
-		reset: function () {
+		reset: function (time) {
 			this.stop();
 			
-			this.initialize();
+			this.initialize(time);
 			this.start();
 		}
 	});

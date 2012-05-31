@@ -63,11 +63,12 @@
     }
 
     function resetToStart() {
-    	UIController.transition(pauseContainer, playContainer);
-    	UIController.transition(play, hidden);
-
-    	Countdown.stop();
-    	Countdown.initialize(timerDuration);
+    	UIController.transition(play, hidden).then(function () {
+    		UIController.transition(pauseContainer, playContainer).done(function () {
+    			Countdown.stop();
+    			Countdown.initialize(timerDuration);
+    		});
+    	});
     }
 
     function createTimerSubscriptions() {
@@ -107,6 +108,7 @@
 
     function setTimerDuration(duration) {
     	container.values["timerDuration"] = duration;
+    	timerDuration = duration;
 
     	Countdown.initialize(container.values["timerDuration"]);
 
@@ -138,12 +140,12 @@
     	});
 
     	reset.addEventListener('click', function () {
-    		Countdown.reset();
+    		Countdown.reset(container.values["timerDuration"]);
     	});
 
     	barReset.addEventListener('click', function () {
     		appBar.winControl.hide();
-    		Countdown.reset();
+    		Countdown.reset(container.values["timerDuration"]);
     	});
 
     	barCancel.addEventListener('click', function () {
