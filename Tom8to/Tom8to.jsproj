@@ -48,11 +48,21 @@
     <PackageCertificateThumbprint>BBFE308284E2088D707BD221B30350A6EC9100E0</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="audio\alarmRing.mp3" />
-    <Content Include="audio\ArenaBuzzer.mp3" />
-    <Content Include="audio\boing.mp3" />
-    <Content Include="audio\jazzTune.mp3" />
-    <Content Include="audio\siren.mp3" />
+    <Content Include="audio\alarmRing.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="audio\ArenaBuzzer.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="audio\boing.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="audio\jazzTune.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="audio\siren.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="css\default.css" />
     <Content Include="css\font-awesome.css" />
     <Content Include="default.html" />

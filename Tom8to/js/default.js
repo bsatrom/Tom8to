@@ -1,8 +1,10 @@
 ﻿(function () {
     "use strict";
 
+    var timerDuration;
     var play, pause, reset, playSmall, hidden, timer, appBar, barReset,
-				barCancel, pauseContainer, playContainer, alarm;
+				barCancel, pauseContainer, playContainer, alarm, changeDuration, resetDuration;
+
     var app = WinJS.Application;
     var appData = Windows.Storage.ApplicationData.current;
     var container = appData.roamingSettings.createContainer("Tom8toSettings", Windows.Storage.ApplicationDataCreateDisposition.always);
@@ -22,6 +24,9 @@
     	barReset = document.querySelector('#barReset');
     	barCancel = document.querySelector('#barCancel');
 
+    	changeDuration = document.querySelector('#timerDuration');
+    	resetDuration = document.querySelector('#resetDuration');
+
     	alarm = document.querySelector('#alarm');    				
     }
 
@@ -32,9 +37,16 @@
 
     	if (!container.values["alarmFont"]) {
     		container.values["alarmFont"] = "segoeUI";
+			}
+
+    	if (!container.values["timerDuration"]) {
+    		container.values["timerDuration"] = 25;
     	}
 
-    	alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
+    	timerDuration = container.values["timerDuration"];
+    	changeDuration.value = timerDuration;
+
+			alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
     	timer.className = container.values["alarmFont"];
     }
 
@@ -55,10 +67,10 @@
     	UIController.transition(play, hidden);
 
     	Countdown.stop();
-    	Countdown.initialize();
+    	Countdown.initialize(timerDuration);
     }
 
-    function timerSubscriptions() {
+    function createTimerSubscriptions() {
     	Observer.subscribe('Timer.tick', function (topics, data) {
     		timer.innerText = data;
     	});
@@ -76,7 +88,13 @@
     	});
     }
 
-    function settingsSubscriptions() {
+    function startCountdown() {
+    	UIController.transition(hidden, play);
+    	Countdown.start();
+    	toggleAppBarButtons();
+    }
+
+    function createSettingsSubscriptions() {
     	Observer.subscribe('Settings.AlarmChange', function () {
     		alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
     	});
@@ -86,25 +104,34 @@
     	});
     }
 
-    app.onactivated = function (eventObject) {    	
-    	populateDOMVariables();
+    function setTimerDuration(duration) {
+    	container.values["timerDuration"] = duration;
+
+    	Countdown.initialize(container.values["timerDuration"]);
+
+    	//Access the Countdown object to get the formatted time value
+    	timer.innerText = Countdown.time();
+    }
+
+    app.addEventListener('activated', function (eventObject) {    	
+			WinJS.UI.processAll();
+
+			populateDOMVariables();
     	applySettings();
 
     	UIController.initButtons(document.querySelectorAll("[class^='icon-']"));
-			
-    	timerSubscriptions();
-    	settingsSubscriptions();
+
+    	createTimerSubscriptions();
+    	createSettingsSubscriptions();
 
     	play.addEventListener('click', function () {
-    		UIController.transition(hidden, play);
-    		Countdown.start();
-    		toggleAppBarButtons();
-			});
+    		startCountdown();
+    	});
 
     	pause.addEventListener('click', function () {
     		UIController.transition(playContainer, pauseContainer);
     		Countdown.stop();
-			});
+    	});
 
     	playSmall.addEventListener('click', function () {
     		UIController.transition(pauseContainer, playContainer);
@@ -113,35 +140,64 @@
 
     	reset.addEventListener('click', function () {
     		Countdown.reset();
-			});
+    	});
 
     	barReset.addEventListener('click', function () {
-				appBar.winControl.hide();
+    		appBar.winControl.hide();
     		Countdown.reset();
-			});
+    	});
 
     	barCancel.addEventListener('click', function () {
     		appBar.winControl.hide();
 
     		resetToStart();
     		toggleAppBarButtons();
-			});
-			
-    	Countdown.initialize();
-    	timer.innerText = Countdown.time();
-			Share.initialize();
+    	});
 
-			WinJS.UI.processAll();
-    };
+    	changeDuration.addEventListener('change', function () {
+    		setTimerDuration(changeDuration.value);
 
-    app.oncheckpoint = function (eventObject) {
-        // TODO: This application is about to be suspended. Save any state
-        // that needs to persist across suspensions here. You might use the 
-        // WinJS.Application.sessionState object, which is automatically
-        // saved and restored across suspension. If you need to complete an
-        // asynchronous operation before your application is suspended, call
-        // eventObject.setPromise(). 
-    };
+    		changeDuration.parentElement.winControl.hide();
+    	});
+
+    	resetDuration.addEventListener('click', function () {
+    		setTimerDuration('25');
+
+    		changeDuration.value = 25;
+    		resetDuration.parentElement.winControl.hide();
+    	});
+
+    	if (eventObject.detail.previousExecutionState !== Windows.ApplicationModel.Activation.ApplicationExecutionState.terminated) {
+    		Countdown.initialize(timerDuration);
+    		timer.innerText = Countdown.time();
+
+    		Share.initialize();    		
+    	} else {
+    		if (WinJS.Application.sessionState["timeRemaining"]) {
+
+    			Countdown.initialize(WinJS.Application.sessionState["timeRemaining"]);
+    			timer.innerText = Countdown.time();
+
+    			startCountdown();
+				} else {
+					Countdown.initialize(timerDuration);
+					timer.innerText = Countdown.time();
+				}
+			}
+    });
+
+		app.addEventListener('checkpoint', function(eventObject) {
+    	WinJS.Application.sessionState["timeRemaining"] = Countdown.time();
+		});
+
+		Windows.UI.WebUI.WebUIApplication.addEventListener("resuming", function () {
+			if (WinJS.Application.sessionState["timeRemaining"]) {
+				Countdown.initialize(WinJS.Application.sessionState["timeRemaining"]);
+				timer.innerText = Countdown.time();
+
+				startCountdown();
+			}
+		});
 	  
     WinJS.Application.onsettings = function (e) {
     	e.detail.applicationcommands = { "helpDiv": { title: "Help", href: "/html/helpFlyout.html" }, 

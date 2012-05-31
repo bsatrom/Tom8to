@@ -138,6 +138,10 @@ section[role="main"] {
 	-ms-font-feature-settings: "dlig" 1, "lig" 1;
 }
 
+#resetDefault {
+	margin-top: 10px;
+}
+
 @media screen and (-ms-view-state: fullscreen-landscape) {
 }
 

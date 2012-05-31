@@ -6,7 +6,7 @@
 	var BREAK_MINUTES = 5;
 	var TIMEOUT = 1000;
 	
-	var _timer, _min, _textClass;
+	var _timer, _min;
 	var _sec = 0;
 
 	var timerEvents = {
@@ -39,6 +39,9 @@
 		if (_sec === -1) {
 			if (_min === 0) { 
 				_sec = 0;
+
+				//Handle break here? or via a callback
+				timerEvents.end();
 			} else {
 				_sec = 59;
 				_min = _min - 1;
@@ -49,17 +52,30 @@
 	};
 	
 	WinJS.Namespace.define("Countdown", {
-		initialize: function (minutes, textClass) {
+		initialize: function (time) {
+			var timeComponents;
+
+			_min = time || WORK_MINUTES;
 			_sec = 0;
-			_min = minutes || WORK_MINUTES;
-			_textClass = textClass || "segoe";
+
+			if (time) {
+				timeComponents = time.toString().split(':');			
+				if (timeComponents.length > 1) {
+					try {
+						_min = parseInt(timeComponents[0]);
+						_sec = parseInt(timeComponents[1]);
+					} catch (e) {
+						_min = WORK_MINUTES;
+						_sec = 0;
+					}
+				}
+			}
 
 			timerEvents.init();
 		},
 		time: function () { return _getTime() },
-		textClass: _textClass,
 		start: function () {
-			if (!_min || !_textClass) {
+			if (!_min) {
 				this.initialize();
 			}
 			_timer = setInterval(_countDown, TIMEOUT);
