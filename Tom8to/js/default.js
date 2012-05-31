@@ -85,6 +85,7 @@
     		// Flash 00:00 for 10 sec
 
     		resetToStart();
+    		toggleAppBarButtons();
     	});
     }
 
@@ -114,8 +115,6 @@
     }
 
     app.addEventListener('activated', function (eventObject) {    	
-			WinJS.UI.processAll();
-
 			populateDOMVariables();
     	applySettings();
 
@@ -167,6 +166,8 @@
     		resetDuration.parentElement.winControl.hide();
     	});
 
+    	WinJS.UI.processAll();
+
     	if (eventObject.detail.previousExecutionState !== Windows.ApplicationModel.Activation.ApplicationExecutionState.terminated) {
     		Countdown.initialize(timerDuration);
     		timer.innerText = Countdown.time();
@@ -184,10 +185,22 @@
 					timer.innerText = Countdown.time();
 				}
 			}
+		});
+
+    WinJS.Application.addEventListener('settings', function (e) {
+    	e.detail.applicationcommands = {
+    		"helpDiv": { title: "Help", href: "/html/helpFlyout.html" },
+    		"settingsDiv": { title: "Settings", href: "/html/settingsFlyout.html" }
+    	};
+    	WinJS.UI.SettingsFlyout.populateSettings(e);
     });
 
 		app.addEventListener('checkpoint', function(eventObject) {
     	WinJS.Application.sessionState["timeRemaining"] = Countdown.time();
+		});
+
+		Windows.UI.WebUI.WebUIApplication.addEventListener("suspending", function () {
+			Countdown.stop();
 		});
 
 		Windows.UI.WebUI.WebUIApplication.addEventListener("resuming", function () {
@@ -198,12 +211,6 @@
 				startCountdown();
 			}
 		});
-	  
-    WinJS.Application.onsettings = function (e) {
-    	e.detail.applicationcommands = { "helpDiv": { title: "Help", href: "/html/helpFlyout.html" }, 
-    		"settingsDiv": { title: "Settings", href: "/html/settingsFlyout.html" } };
-    	WinJS.UI.SettingsFlyout.populateSettings(e);
-    };
 
     app.start();
 })();

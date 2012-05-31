@@ -184,4 +184,26 @@ section[role="main"] {
 	[class^="icon-"] {
 		font-size: 500pt;
 	}
+	
+	.med {
+		font-size: 200pt;
+	}
+	
+	#timer {
+		font-size: 300pt;
+	}
+}
+
+@media screen and (min-width: 2500px) and (min-height: 1400px) {
+	[class^="icon-"] {
+		font-size: 700pt;
+	}
+	
+	.med {
+		font-size: 300pt;
+	}
+	
+	#timer {
+		font-size: 400pt;
+	}
 }
