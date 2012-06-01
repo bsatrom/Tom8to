@@ -45,12 +45,12 @@
 			</div>
 		</section>
 
-		<div><audio id="alarm" src="audio/alarmRing.mp3"></audio></div>
+		<div><audio id="alarm" msAudioCategory="Communications"></audio></div>
 
 		<!-- Duration Flyout -->
-    <div id="changeDuration" data-win-control="WinJS.UI.Flyout">
+    <div id="changeDuration" data-win-control="WinJS.UI.Flyout" data-win-options="">
         <h3>Timer Duration</h3>
-        <select data-win-control="WinJS.UI.MenuCommand" id="timerDuration" aria-label="Timer Duration select">
+        <select data-win-control="WinJS.UI.MenuCommand" data-win-options="" id="timerDuration" aria-label="Timer Duration select">
             <option value="1">1:00</option>
             <option value="5">5:00</option>
             <option value="10">10:00</option>

@@ -20,6 +20,13 @@
         <DefaultTile ShowName="logoOnly" WideLogo="images\widelogo.png" ShortName="Tom8to" />
         <SplashScreen Image="images\splashscreen.png" />
       </VisualElements>
+      <Extensions>
+        <Extension Category="windows.backgroundTasks" StartPage="default.html">
+          <BackgroundTasks>
+            <Task Type="audio" />
+          </BackgroundTasks>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>

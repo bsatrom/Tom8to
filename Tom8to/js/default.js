@@ -2,8 +2,8 @@
     "use strict";
 
     var timerDuration;
-    var play, pause, reset, playSmall, hidden, timer, appBar, barReset,
-				barCancel, pauseContainer, playContainer, alarm, changeDuration, resetDuration;
+    var play, pause, reset, playSmall, hidden, timer, appBar, barReset, barCancel,
+				pauseContainer, playContainer, alarm, changeDuration, resetDuration, MediaControls;
 
     var app = WinJS.Application;
     var appData = Windows.Storage.ApplicationData.current;
@@ -29,7 +29,7 @@
 
     	alarm = document.querySelector('#alarm');    				
     }
-
+	
     function applySettings() {
     	if (!container.values["alarmSound"]) {
     		container.values["alarmSound"] = "alarmRing";
@@ -46,8 +46,7 @@
     	timerDuration = container.values["timerDuration"];
     	changeDuration.value = timerDuration;
 
-			alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
-    	timer.className = container.values["alarmFont"];
+			timer.className = container.values["alarmFont"];
     }
 
     function toggleAppBarButtons() {
@@ -81,8 +80,10 @@
     	});
 
     	Observer.subscribe('Timer.end', function () {
-    		alarm.play();
-
+    		if (alarm.src) {
+    			alarm.play();
+    		}
+					
     		// triggers pulse animation
     		WinJS.Utilities.addClass(timer, 'pulse');
     		
@@ -118,10 +119,62 @@
 
     	//Access the Countdown object to get the formatted time value
     	timer.innerText = Countdown.time();
+		}
+
+    function playAlarm() {
+    	alarm.play();
+    }
+    function pauseAlarm() {
+    	alarm.pause();
+    }
+
+    function playpauseAlarm() {
+    	if (MediaControls.isPlaying) {
+    		alarm.pause();
+    	} else {
+    		alarm.play();
+    	}
+    }
+
+    function stopAlarm() {
+    	alarm.pause();
+    }
+
+    function setupBackgroundAudio() {
+    	MediaControls = Windows.Media.MediaControl;
+
+    	// Add event listeners for the buttons
+    	MediaControls.addEventListener('playpressed', playAlarm);
+    	MediaControls.addEventListener('pausepressed', pauseAlarm);
+    	MediaControls.addEventListener('playpausetogglepressed', playpauseAlarm);
+    	MediaControls.addEventListener('stoppressed', stopAlarm);
+
+    	alarm.addEventListener('playing', function () {
+    		MediaControls.isPlaying = true;
+			});
+
+    	alarm.addEventListener('pause', function () {
+    		MediaControls.isPlaying = false;
+    	});
+
+    	alarm.addEventListener('ended', function () {
+    		MediaControls.artistName = "Tom8to";
+    		MediaControls.trackName = "Your Time is Up!";
+    		MediaControls.isPlaying = false;
+
+    		MediaControls.removeEventListener('playpressed', playAlarm);
+    		MediaControls.removeEventListener('pausepressed', pauseAlarm);
+    		MediaControls.removeEventListener('playpausetogglepressed', playpauseAlarm);
+    	});
+
+    	alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
+
+    	MediaControls.isPlaying = false;
     }
 
     app.addEventListener('activated', function (eventObject) {    	
     	populateDOMVariables();
+
     	applySettings();
 
     	UIController.initButtons(document.querySelectorAll("[class^='icon-']"));
@@ -130,6 +183,7 @@
     	createSettingsSubscriptions();
 
     	play.addEventListener('click', function () {
+    		stopAlarm(); //if a previous alarm is still playing, pause it
     		startCountdown();
     	});
 
@@ -144,6 +198,8 @@
     	});
 
     	reset.addEventListener('click', function () {
+    		stopAlarm(); //if a previous alarm is still playing, pause it
+
     		if (pauseContainer.className === 'hidden') {
     			UIController.transition(pauseContainer, playContainer);
 				}
@@ -153,11 +209,14 @@
 
     	barReset.addEventListener('click', function () {
     		appBar.winControl.hide();
+    		stopAlarm(); //if a previous alarm is still playing, pause it
+
     		Countdown.reset(container.values["timerDuration"]);
     	});
 
     	barCancel.addEventListener('click', function () {
     		appBar.winControl.hide();
+    		stopAlarm(); //if a previous alarm is still playing, pause it
 
     		resetToStart();
     		toggleAppBarButtons();
@@ -195,6 +254,8 @@
 					timer.innerText = Countdown.time();
 				}
 			}
+
+    	setupBackgroundAudio();
 		});
 
     WinJS.Application.addEventListener('settings', function (e) {
