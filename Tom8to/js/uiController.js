@@ -14,11 +14,11 @@
 
 	WinJS.Namespace.define("UIController", {
 		transition: function (incoming, outgoing) {
-			return animation.crossFade(incoming, outgoing).then(function () {
-				outgoing.setAttribute('disabled', '');
-				utils.addClass(outgoing, "hidden");
+			outgoing.setAttribute('disabled', '');
+			incoming.removeAttribute('disabled');
 
-				incoming.removeAttribute('disabled');
+			return animation.crossFade(incoming, outgoing).then(function () {
+				utils.addClass(outgoing, "hidden");
 				utils.removeClass(incoming, "hidden");
 			});
 		},

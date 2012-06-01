@@ -84,6 +84,8 @@ section[role="main"] {
 .hidden {
   opacity: 0;
 	display:  none;
+	position: relative;
+	z-index:  -1000;
 }
 
 #timer {
@@ -91,6 +93,10 @@ section[role="main"] {
 	font-weight: 800;
 	width: 100%;
 	text-align: center;
+}
+
+.red {
+	color: rgba(149, 17, 17, 1);
 }
 
 #playContainer {
@@ -144,6 +150,24 @@ section[role="main"] {
 
 #resetDefault {
 	margin-top: 10px;
+}
+
+@-ms-keyframes pulse {
+	from {
+		color: rgba(255, 255, 255, 1);
+	}
+
+	to {
+		color: rgba(149, 17, 17, .75);
+	}
+}
+
+.pulse {
+	-ms-animation-name: pulse;
+	-ms-animation-duration:  .75s;
+	-ms-animation-direction: alternate;
+	-ms-animation-iteration-count: 12;
+	-ms-animation-timing-function: ease-in-out;
 }
 
 @media screen and (-ms-view-state: fullscreen-landscape) {

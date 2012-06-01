@@ -40,7 +40,7 @@
 			if (_min === 0) { 
 				_sec = 0;
 
-				//Handle break here? or via a callback
+				clearInterval(_timer);
 				timerEvents.end();
 			} else {
 				_sec = 59;

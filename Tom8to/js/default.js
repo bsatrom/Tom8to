@@ -83,10 +83,14 @@
     	Observer.subscribe('Timer.end', function () {
     		alarm.play();
 
-    		// Flash 00:00 for 10 sec
-
-    		resetToStart();
-    		toggleAppBarButtons();
+    		// triggers pulse animation
+    		WinJS.Utilities.addClass(timer, 'pulse');
+    		
+    		setTimeout(function () {
+					WinJS.Utilities.removeClass(timer, 'pulse');
+    			resetToStart();
+    			toggleAppBarButtons();
+    		}, 10000);
     	});
     }
 
@@ -117,7 +121,7 @@
     }
 
     app.addEventListener('activated', function (eventObject) {    	
-			populateDOMVariables();
+    	populateDOMVariables();
     	applySettings();
 
     	UIController.initButtons(document.querySelectorAll("[class^='icon-']"));
@@ -132,7 +136,7 @@
     	pause.addEventListener('click', function () {
     		UIController.transition(playContainer, pauseContainer);
     		Countdown.stop();
-    	});
+			});
 
     	playSmall.addEventListener('click', function () {
     		UIController.transition(pauseContainer, playContainer);
@@ -140,7 +144,11 @@
     	});
 
     	reset.addEventListener('click', function () {
-    		Countdown.reset(container.values["timerDuration"]);
+    		if (pauseContainer.className === 'hidden') {
+    			UIController.transition(pauseContainer, playContainer);
+				}
+
+	    	Countdown.reset(container.values["timerDuration"]);
     	});
 
     	barReset.addEventListener('click', function () {
