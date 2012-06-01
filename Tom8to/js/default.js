@@ -5,6 +5,7 @@
     var play, pause, reset, playSmall, hidden, timer, appBar, barReset, barCancel,
 				pauseContainer, playContainer, alarm, changeDuration, resetDuration, MediaControls;
 
+    var canToggleAlarm = false;
     var app = WinJS.Application;
     var appData = Windows.Storage.ApplicationData.current;
     var container = appData.roamingSettings.createContainer("Tom8toSettings", Windows.Storage.ApplicationDataCreateDisposition.always);
@@ -81,6 +82,7 @@
 
     	Observer.subscribe('Timer.end', function () {
     		if (alarm.src) {
+    			canToggleAlarm = true;
     			alarm.play();
     		}
 					
@@ -122,22 +124,31 @@
 		}
 
     function playAlarm() {
-    	alarm.play();
-    }
-    function pauseAlarm() {
-    	alarm.pause();
-    }
-
-    function playpauseAlarm() {
-    	if (MediaControls.isPlaying) {
-    		alarm.pause();
-    	} else {
+    	if (canToggleAlarm) {
     		alarm.play();
     	}
     }
 
+    function pauseAlarm() {
+    	if (canToggleAlarm) {
+    		alarm.pause();
+    	}
+    }
+
+    function playpauseAlarm() {
+    	if (canToggleAlarm) {
+    		if (MediaControls.isPlaying) {
+    			alarm.pause();
+    		} else {
+    			alarm.play();
+    		}
+    	}
+    }
+
     function stopAlarm() {
-    	alarm.pause();
+    	if (canToggleAlarm) {
+    		alarm.pause();
+    	}
     }
 
     function setupBackgroundAudio() {
