@@ -2,8 +2,8 @@
 ## Windows 8
 #################
 Package.StoreAssociation.xml
-AppPackages/*
-Store/*
+*/AppPackages/**
+Store/**
 
 #################
 ## Eclipse
