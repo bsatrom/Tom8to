@@ -6,9 +6,9 @@
 }
 
 html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -36,19 +36,19 @@ header h1 {
 section[role="main"] {
   -ms-grid-row: 2;
 	
-	-ms-box-align: middle;
-  -ms-box-orient: vertical;
-  -ms-box-pack: center;
-  display: -ms-box;
-	    
+  display: -ms-flexbox;
+	-ms-flex-align: center;
+  -ms-flex-pack: center;
+  -ms-flex-direction: column;
+    
 	height: 100%;
   width: 100%;
 }
 
 .fixedlayout {
-    display: -ms-grid;
-    -ms-grid-columns: 1fr;
-    -ms-grid-rows: 1fr;
+  display: -ms-grid;
+  -ms-grid-columns: 1fr;
+  -ms-grid-rows: 1fr;
 }
 
 [class^="icon-"] {
@@ -63,23 +63,15 @@ section[role="main"] {
 }
 
 .countdown {
-	display: -ms-box;
-	-ms-box-align: middle;
-  -ms-box-orient: horizontal;
-  -ms-box-pack: center;
-	-ms-box-lines: multiple;
+	display: -ms-flexbox;
+	-ms-flex-flow: wrap;
+	-ms-flex-pack: center;
 }
 
 #playMain {
 	text-align: center;
 }
 
-#playPause {
-	display: -ms-box;
-	-ms-box-align: middle;
-  -ms-box-orient: horizontal;
-  -ms-box-pack: center;
-}
 
 .hidden {
   opacity: 0;

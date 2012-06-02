@@ -34,7 +34,7 @@
     function applySettings() {
     	if (!container.values["alarmSound"]) {
     		container.values["alarmSound"] = "alarmRing";
-			}
+		}
 
     	if (!container.values["alarmFont"]) {
     		container.values["alarmFont"] = "segoeUI";
@@ -47,7 +47,7 @@
     	timerDuration = container.values["timerDuration"];
     	changeDuration.value = timerDuration;
 
-			timer.className = container.values["alarmFont"];
+		timer.className = container.values["alarmFont"];
     }
 
     function toggleAppBarButtons() {
