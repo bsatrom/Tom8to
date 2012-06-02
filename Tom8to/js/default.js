@@ -4,7 +4,7 @@
     var timerDuration;
     var play, pause, reset, playSmall, hidden, timer, appBar, barReset, barCancel,
 				pauseContainer, playContainer, alarm, changeDuration, resetDuration, MediaControls;
-
+    
     var canToggleAlarm = false;
     var app = WinJS.Application;
     var appData = Windows.Storage.ApplicationData.current;
