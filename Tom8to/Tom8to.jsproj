@@ -44,7 +44,9 @@
     <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
     <TargetPlatformVersion>8.0</TargetPlatformVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <PackageCertificateKeyFile>Tom8to_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Tom8to_StoreKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <PackageCertificateThumbprint>782906FB21EFC88789BB8D8C5505BA52B0F445FE</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="package.appxmanifest">
@@ -73,6 +75,8 @@
     <Content Include="js\share.js" />
     <Content Include="js\timerModel.js" />
     <Content Include="js\uiController.js" />
+    <None Include="Tom8to_StoreKey.pfx" />
+    <None Include="Package.StoreAssociation.xml" />
     <None Include="Tom8to_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
