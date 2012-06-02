@@ -3,9 +3,8 @@
 
     var timerDuration;
     var play, pause, reset, playSmall, hidden, timer, appBar, barReset, barCancel,
-				pauseContainer, playContainer, alarm, changeDuration, resetDuration, MediaControls;
+				pauseContainer, playContainer, alarm, changeDuration, resetDuration;
     
-    var canToggleAlarm = false;
     var app = WinJS.Application;
     var appData = Windows.Storage.ApplicationData.current;
     var container = appData.roamingSettings.createContainer("Tom8toSettings", Windows.Storage.ApplicationDataCreateDisposition.always);
@@ -82,7 +81,6 @@
 
     	Observer.subscribe('Timer.end', function () {
     		if (alarm.src) {
-    			canToggleAlarm = true;
     			alarm.play();
     		}
 					
@@ -121,66 +119,10 @@
 
     	//Access the Countdown object to get the formatted time value
     	timer.innerText = Countdown.time();
-		}
-
-    function playAlarm() {
-    	if (canToggleAlarm) {
-    		alarm.play();
-    	}
-    }
-
-    function pauseAlarm() {
-    	if (canToggleAlarm) {
-    		alarm.pause();
-    	}
-    }
-
-    function playpauseAlarm() {
-    	if (canToggleAlarm) {
-    		if (MediaControls.isPlaying) {
-    			alarm.pause();
-    		} else {
-    			alarm.play();
-    		}
-    	}
     }
 
     function stopAlarm() {
-    	if (canToggleAlarm) {
-    		alarm.pause();
-    	}
-    }
-
-    function setupBackgroundAudio() {
-    	MediaControls = Windows.Media.MediaControl;
-
-    	// Add event listeners for the buttons
-    	MediaControls.addEventListener('playpressed', playAlarm);
-    	MediaControls.addEventListener('pausepressed', pauseAlarm);
-    	MediaControls.addEventListener('playpausetogglepressed', playpauseAlarm);
-    	MediaControls.addEventListener('stoppressed', stopAlarm);
-
-    	alarm.addEventListener('playing', function () {
-    		MediaControls.isPlaying = true;
-			});
-
-    	alarm.addEventListener('pause', function () {
-    		MediaControls.isPlaying = false;
-    	});
-
-    	alarm.addEventListener('ended', function () {
-    		MediaControls.artistName = "Tom8to";
-    		MediaControls.trackName = "Your Time is Up!";
-    		MediaControls.isPlaying = false;
-
-    		MediaControls.removeEventListener('playpressed', playAlarm);
-    		MediaControls.removeEventListener('pausepressed', pauseAlarm);
-    		MediaControls.removeEventListener('playpausetogglepressed', playpauseAlarm);
-    	});
-
-    	alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
-
-    	MediaControls.isPlaying = false;
+      alarm.pause();
     }
 
     app.addEventListener('activated', function (eventObject) {    	
@@ -266,7 +208,7 @@
 				}
 			}
 
-    	setupBackgroundAudio();
+    	Observer.publish('App.Loaded');
 		});
 
     WinJS.Application.addEventListener('settings', function (e) {
