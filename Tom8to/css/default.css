@@ -72,7 +72,6 @@ section[role="main"] {
 	text-align: center;
 }
 
-
 .hidden {
   opacity: 0;
 	display:  none;
@@ -183,6 +182,10 @@ section[role="main"] {
 	
 	.med {
 		font-size: 48pt;
+	}
+  
+	#playContainer {
+		width:  52pt;
 	}
 
 	#timer {
