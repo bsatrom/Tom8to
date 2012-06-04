@@ -41,7 +41,9 @@
     MediaControls.addEventListener('pausepressed', pauseAlarm);
     MediaControls.addEventListener('playpausetogglepressed', playpauseAlarm);
     MediaControls.addEventListener('stoppressed', stopAlarm);
-
+    MediaControls.artistName = "Tom8to";
+    MediaControls.albumArt = new Windows.Foundation.Uri("ms-appx://images/logo.png");
+        
     alarm.addEventListener('playing', function () {
       MediaControls.isPlaying = true;
     });
@@ -51,8 +53,6 @@
     });
 
     alarm.addEventListener('ended', function () {
-      MediaControls.artistName = "Tom8to";
-      MediaControls.albumArt = "images/logo.png";
       MediaControls.isPlaying = false;
 
       MediaControls.removeEventListener('playpressed', playAlarm);
@@ -65,7 +65,7 @@
     MediaControls.isPlaying = false;
   }
 
-  Observer.subscribe("App.Loaded", setupBackgroundAudio);
+  Observer.subscribe("App.loaded", setupBackgroundAudio);
 
   Observer.subscribe('Timer.end', function () {
     canToggleAlarm = true;

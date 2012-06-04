@@ -6,8 +6,8 @@
 	var BREAK_MINUTES = 5;
 	var TIMEOUT = 1000;
 	
-	var _timer, _min;
-	var _sec = 0;
+	var _timer, _min, _sec;
+	var _started = false;
 
 	var timerEvents = {
 		init: function () {
@@ -52,33 +52,44 @@
 	};
 	
 	WinJS.Namespace.define("Countdown", {
-		initialize: function (time) {
-			var timeComponents;
+	  started: function () {
+	    return _started;
+	  },
+	  initialize: function () {
+	    var timeComponents, time, min, sec;
+	    
+	    if (arguments.length < 2) {
+	      time = arguments[0];
 
-			_min = time || WORK_MINUTES;
-			_sec = 0;
+	      _min = time || WORK_MINUTES;
+	      _sec = 0;
 
-			if (time) {
-				timeComponents = time.toString().split(':');			
-				if (timeComponents.length > 1) {
-					try {
-						_min = parseInt(timeComponents[0]);
-						_sec = parseInt(timeComponents[1]);
-					} catch (e) {
-						_min = WORK_MINUTES;
-						_sec = 0;
-					}
-				}
-			}
+	      if (time) {
+	        timeComponents = time.toString().split(':');
+	        if (timeComponents.length > 1) {
+	          try {
+	            _min = parseInt(timeComponents[0]);
+	            _sec = parseInt(timeComponents[1]);
+	          } catch (e) {
+	            _min = WORK_MINUTES;
+	            _sec = 0;
+	          }
+	        }
+	      }
+	    } else {
+	      _min = arguments[0];
+	      _sec = arguments[1];
+	    }
 
 			timerEvents.init();
 		},
 		time: function () { return _getTime() },
 		start: function () {
-			if (!_min) {
+			if (!_min && !_sec) {
 				this.initialize();
 			}
 			_timer = setInterval(_countDown, TIMEOUT);
+			_started = true;
 
 			timerEvents.start();
 		},
@@ -86,6 +97,7 @@
 			if (_timer) {
 				clearInterval(_timer);
 			}
+			_started = false;
 		},
 		reset: function (time) {
 			this.stop();

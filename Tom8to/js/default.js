@@ -29,6 +29,63 @@
 
     	alarm = document.querySelector('#alarm');    				
     }
+
+    function addUIEvents() {
+      play.addEventListener('click', function () {
+        stopAlarm(); //if a previous alarm is still playing, pause it
+        Tom8to.startCountdown();
+      });
+
+      pause.addEventListener('click', function () {
+        UIController.transition(playContainer, pauseContainer);
+        Countdown.stop();
+        Observer.publish('Toast.remove');
+      });
+
+      playSmall.addEventListener('click', function () {
+        UIController.transition(pauseContainer, playContainer);
+        Countdown.start();
+      });
+
+      reset.addEventListener('click', function () {
+        stopAlarm(); //if a previous alarm is still playing, pause it
+
+        if (pauseContainer.className === 'hidden') {
+          UIController.transition(pauseContainer, playContainer);
+        }
+
+        Countdown.reset(container.values["timerDuration"]);
+        Observer.publish('Toast.remove');
+      });
+
+      barReset.addEventListener('click', function () {
+        appBar.winControl.hide();
+        stopAlarm(); //if a previous alarm is still playing, pause it
+
+        Countdown.reset(container.values["timerDuration"]);
+        Observer.publish('Toast.remove');
+      });
+
+      barCancel.addEventListener('click', function () {
+        appBar.winControl.hide();
+        stopAlarm(); //if a previous alarm is still playing, pause it
+
+        Tom8to.resetToStart();
+      });
+
+      changeDuration.addEventListener('change', function () {
+        setTimerDuration(changeDuration.value);
+
+        changeDuration.parentElement.winControl.hide();
+      });
+
+      resetDuration.addEventListener('click', function () {
+        setTimerDuration('25');
+
+        changeDuration.value = 25;
+        resetDuration.parentElement.winControl.hide();
+      });
+    }
 	
     function applySettings() {
     	if (!container.values["alarmSound"]) {
@@ -61,15 +118,6 @@
     	}
     }
 
-    function resetToStart() {
-    	UIController.transition(play, hidden).then(function () {
-    		UIController.transition(pauseContainer, playContainer).done(function () {
-    			Countdown.stop();
-    			Countdown.initialize(timerDuration);
-    		});
-    	});
-    }
-
     function createTimerSubscriptions() {
     	Observer.subscribe('Timer.tick', function (topics, data) {
     		timer.innerText = data;
@@ -82,25 +130,18 @@
     	Observer.subscribe('Timer.end', function () {
     		if (alarm.src) {
     			alarm.play();
-    		}
-					
-    		// triggers pulse animation
+    	  }
+
+    	  // triggers pulse animation
     		WinJS.Utilities.addClass(timer, 'pulse');
     		
     		setTimeout(function () {
 					WinJS.Utilities.removeClass(timer, 'pulse');
-    			resetToStart();
-    			toggleAppBarButtons();
+    			Tom8to.resetToStart();
     		}, 10000);
     	});
     }
-
-    function startCountdown() {
-    	UIController.transition(hidden, play);
-    	Countdown.start();
-    	toggleAppBarButtons();
-    }
-
+  
     function createSettingsSubscriptions() {
     	Observer.subscribe('Settings.AlarmChange', function () {
     		alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
@@ -124,94 +165,36 @@
     function stopAlarm() {
       alarm.pause();
     }
-
+    
+    // Main Application Entry Point
     app.addEventListener('activated', function (eventObject) {    	
-    	populateDOMVariables();
+      var evtDetails = eventObject.detail;
+      var execStates = Windows.ApplicationModel.Activation.ApplicationExecutionState;
 
-    	applySettings();
+      if (!(evtDetails.previousExecutionState === execStates.suspended && (eventObject.detail.arguments === "toast"))) {
+        
+        populateDOMVariables();
+        addUIEvents();
+        UIController.initButtons(document.querySelectorAll("[class^='icon-']"));
 
-    	UIController.initButtons(document.querySelectorAll("[class^='icon-']"));
+        applySettings();
+        createTimerSubscriptions();
+        createSettingsSubscriptions();
+    	
+        WinJS.UI.processAll();          	
+    	
+        if (evtDetails.previousExecutionState === execStates.terminated && app.sessionState["timeRemaining"]) {
+          LifecycleManager.resume();
+        } else {
+          Countdown.initialize(timerDuration);
+          timer.innerText = Countdown.time();
+        }
 
-    	createTimerSubscriptions();
-    	createSettingsSubscriptions();
+        Observer.publish('App.loaded');
+      }
+    });
 
-    	play.addEventListener('click', function () {
-    		stopAlarm(); //if a previous alarm is still playing, pause it
-    		startCountdown();
-    	});
-
-    	pause.addEventListener('click', function () {
-    		UIController.transition(playContainer, pauseContainer);
-    		Countdown.stop();
-			});
-
-    	playSmall.addEventListener('click', function () {
-    		UIController.transition(pauseContainer, playContainer);
-    		Countdown.start();
-    	});
-
-    	reset.addEventListener('click', function () {
-    		stopAlarm(); //if a previous alarm is still playing, pause it
-
-    		if (pauseContainer.className === 'hidden') {
-    			UIController.transition(pauseContainer, playContainer);
-				}
-
-	    	Countdown.reset(container.values["timerDuration"]);
-    	});
-
-    	barReset.addEventListener('click', function () {
-    		appBar.winControl.hide();
-    		stopAlarm(); //if a previous alarm is still playing, pause it
-
-    		Countdown.reset(container.values["timerDuration"]);
-    	});
-
-    	barCancel.addEventListener('click', function () {
-    		appBar.winControl.hide();
-    		stopAlarm(); //if a previous alarm is still playing, pause it
-
-    		resetToStart();
-    		toggleAppBarButtons();
-    	});
-
-    	changeDuration.addEventListener('change', function () {
-    		setTimerDuration(changeDuration.value);
-
-    		changeDuration.parentElement.winControl.hide();
-    	});
-
-    	resetDuration.addEventListener('click', function () {
-    		setTimerDuration('25');
-
-    		changeDuration.value = 25;
-    		resetDuration.parentElement.winControl.hide();
-    	});
-
-    	WinJS.UI.processAll();
-
-    	if (eventObject.detail.previousExecutionState !== Windows.ApplicationModel.Activation.ApplicationExecutionState.terminated) {
-    		Countdown.initialize(timerDuration);
-    		timer.innerText = Countdown.time();
-
-    		Share.initialize();    		
-    	} else {
-    		if (WinJS.Application.sessionState["timeRemaining"]) {
-
-    			Countdown.initialize(WinJS.Application.sessionState["timeRemaining"]);
-    			timer.innerText = Countdown.time();
-
-    			startCountdown();
-				} else {
-					Countdown.initialize(timerDuration);
-					timer.innerText = Countdown.time();
-				}
-			}
-
-    	Observer.publish('App.Loaded');
-		});
-
-    WinJS.Application.addEventListener('settings', function (e) {
+    app.addEventListener('settings', function (e) {
     	e.detail.applicationcommands = {
     		"helpDiv": { title: "Help", href: "/html/helpFlyout.html" },
     		"settingsDiv": { title: "Settings", href: "/html/settingsFlyout.html" }
@@ -219,22 +202,23 @@
     	WinJS.UI.SettingsFlyout.populateSettings(e);
     });
 
-		app.addEventListener('checkpoint', function(eventObject) {
-    	WinJS.Application.sessionState["timeRemaining"] = Countdown.time();
-		});
-
-		Windows.UI.WebUI.WebUIApplication.addEventListener("suspending", function () {
-			Countdown.stop();
-		});
-
-		Windows.UI.WebUI.WebUIApplication.addEventListener("resuming", function () {
-			if (WinJS.Application.sessionState["timeRemaining"]) {
-				Countdown.initialize(WinJS.Application.sessionState["timeRemaining"]);
-				timer.innerText = Countdown.time();
-
-				startCountdown();
-			}
-		});
-
     app.start();
+
+    WinJS.Namespace.define("Tom8to", {
+      resetToStart: function() {
+    	  UIController.transition(play, hidden).then(function () {
+    	    UIController.transition(pauseContainer, playContainer).done(function () {
+    	      Countdown.stop();
+    	        Countdown.initialize(timerDuration);
+    	    });
+    	  });
+    	  toggleAppBarButtons();
+    	  Observer.publish('Toast.remove');
+      },
+      startCountdown: function () {
+    	  UIController.transition(hidden, play);
+        Countdown.start();
+        toggleAppBarButtons();
+      }
+    });
 })();

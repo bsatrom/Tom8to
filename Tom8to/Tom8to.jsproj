@@ -57,12 +57,14 @@
     <Content Include="audio\boing.mp3" />
     <Content Include="audio\jazzTune.mp3" />
     <Content Include="audio\siren.mp3" />
+    <Content Include="css\default.css" />
     <Content Include="css\font-awesome.css" />
     <Content Include="default.html" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="html\helpFlyout.html" />
     <Content Include="html\settingsFlyout.html" />
     <Content Include="images\logo.png" />
+    <Content Include="images\smallbadge.png" />
     <Content Include="images\smalllogo.png" />
     <Content Include="images\smallTile.png" />
     <Content Include="images\splashscreen.png" />
@@ -70,8 +72,9 @@
     <Content Include="images\widelogo.png" />
     <Content Include="js\backgroundAudio.js" />
     <Content Include="js\default.js" />
-    <Content Include="css\default.css" />
     <Content Include="js\observer.js" />
+    <Content Include="js\lifecycleManager.js" />
+    <Content Include="js\toast.js" />
     <Content Include="js\settingsFlyout.js" />
     <Content Include="js\share.js" />
     <Content Include="js\timerModel.js" />
