@@ -8,6 +8,7 @@
 	
 	var _timer, _min, _sec;
 	var _started = false;
+	var _paused = false;
 
 	var timerEvents = {
 		init: function () {
@@ -55,6 +56,9 @@
 	  started: function () {
 	    return _started;
 	  },
+	  paused: function () {
+	    _paused
+	  },
 	  initialize: function () {
 	    var timeComponents, time, min, sec;
 	    
@@ -97,7 +101,7 @@
 			if (_timer) {
 				clearInterval(_timer);
 			}
-			_started = false;
+			_paused = true;
 		},
 		reset: function (time) {
 			this.stop();

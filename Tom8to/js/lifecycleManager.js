@@ -13,7 +13,7 @@
 
   function appResume() {
     var state = WinJS.Application.sessionState;
-    if (Countdown.started() && state["timeRemaining"]) {
+    if (Countdown.started() || state["timeRemaining"]) {
       var timeRemaining = state["timeRemaining"];
       var diffSeconds = Math.floor((Date.now() - state["checkpointTime"]) / 1000);
 
@@ -50,7 +50,9 @@
   });
 
   webApp.addEventListener("resuming", function () {
-    appResume();
+    if (!Countdown.paused()) {
+      appResume();
+    }
   });
 
   WinJS.Namespace.define('LifecycleManager', {
