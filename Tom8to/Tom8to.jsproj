@@ -63,8 +63,8 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="html\helpFlyout.html" />
     <Content Include="html\settingsFlyout.html" />
+    <Content Include="images\badgelogo.png" />
     <Content Include="images\logo.png" />
-    <Content Include="images\smallbadge.png" />
     <Content Include="images\smalllogo.png" />
     <Content Include="images\smallTile.png" />
     <Content Include="images\splashscreen.png" />
