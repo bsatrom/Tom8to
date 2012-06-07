@@ -5,7 +5,7 @@
   function timeToSeconds(timeString) {
     if (typeof timeString === "string") {  
       var timeComponents = timeString.split(":");
-      return (timeComponents[0]*60) + timeComponents[1];
+      return (parseInt(timeComponents[0]) * 60) + parseInt(timeComponents[1]);
     } else {
       return 0;
     }

@@ -34,6 +34,7 @@
       play.addEventListener('click', function () {
         stopAlarm(); //if a previous alarm is still playing, pause it
         Tom8to.startCountdown();
+        toggleAppBarButtons();
       });
 
       pause.addEventListener('click', function () {
@@ -183,7 +184,7 @@
     	
         WinJS.UI.processAll();          	
     	
-        if (evtDetails.previousExecutionState === execStates.terminated && app.sessionState["timeRemaining"]) {
+         if (evtDetails.previousExecutionState === execStates.terminated && app.sessionState["timeRemaining"]) {
           LifecycleManager.resume();
         } else {
           Countdown.initialize(timerDuration);
@@ -218,7 +219,6 @@
       startCountdown: function () {
     	  UIController.transition(hidden, play);
         Countdown.start();
-        toggleAppBarButtons();
       }
     });
 })();
