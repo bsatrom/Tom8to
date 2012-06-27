@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="42255CarrotPantsStudios.Tom8to" Version="1.0.0.0" Publisher="CN=1436C460-4FDB-434E-804C-0AAB96816885" />
+  <Identity Name="42255CarrotPantsStudios.Tom8to" Version="1.0.0.1" Publisher="CN=1436C460-4FDB-434E-804C-0AAB96816885" />
   <Properties>
     <DisplayName>Tom8to</DisplayName>
     <Description>Tom8to</Description>
@@ -17,7 +17,6 @@
   <Applications>
     <Application Id="App" StartPage="default.html">
       <VisualElements DisplayName="Tom8to" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="Tom8to" ForegroundText="light" BackgroundColor="#000000" ToastCapable="true">
-        <LockScreen Notification="badgeAndTileText" BadgeLogo="images\badgelogo.png" />
         <DefaultTile ShowName="logoOnly" WideLogo="images\widelogo.png" ShortName="Tom8to" />
         <SplashScreen Image="images\splashscreen.png" />
       </VisualElements>
@@ -25,13 +24,9 @@
         <Extension Category="windows.backgroundTasks" StartPage="default.html">
           <BackgroundTasks>
             <Task Type="audio" />
-            <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
       </Extensions>
     </Application>
   </Applications>
-  <Capabilities>
-    <Capability Name="internetClient" />
-  </Capabilities>
 </Package>
