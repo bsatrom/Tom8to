@@ -181,6 +181,7 @@
         applySettings();
         createTimerSubscriptions();
         createSettingsSubscriptions();
+        ADS.init("trialAd");
     	
         WinJS.UI.processAll();          	
     	

@@ -11,23 +11,31 @@
 
     <!-- Tom8to references -->
     <link href="/css/default.css" rel="stylesheet" />
-		<link href="css/font-awesome.css" rel="stylesheet" />
+	<link href="css/font-awesome.css" rel="stylesheet" />
 		
-		<!-- Utility -->
-		<script src="js/observer.js"></script>
+	<!-- Utility -->
+	<script src="js/observer.js"></script>
 		
-	  <script src="js/timerModel.js"></script>
-		<script src="js/uiController.js"></script>
+	<script src="js/timerModel.js"></script>
+	<script src="js/uiController.js"></script>
     <script src="js/backgroundAudio.js"></script>    
     <script src="js/share.js"></script>
   	<script src="/js/default.js"></script>
   
     <script src="js/toast.js"></script>
     <script src="js/lifecycleManager.js"></script>
+
+    <!-- Ads -->
+    <!-- Microsoft Advertising required references -->
+    <script src="/MSAdvertisingJS/ads/ad.js" ></script>
+    <script src="js/ads.js"></script>
 </head>
 <body>
 		<header role="banner">
 			<h1 class="win-title">Tom<span class="eight">8</span>to</h1>
+
+            <!-- Add Banner -->
+            <div id="trialAd"></div>
 		</header>
 		<section role="main">
 			<div data-win-control="WinJS.UI.ViewBox">
@@ -52,25 +60,25 @@
 		<div><audio id="alarm" msAudioCategory="BackgroundCapableMedia"></audio></div>
 
 		<!-- Duration Flyout -->
-    <div id="changeDuration" data-win-control="WinJS.UI.Flyout" data-win-options="">
-        <h3>Timer Duration</h3>
-        <select id="timerDuration" aria-label="Timer Duration select">
-            <option value="1">1:00</option>
-            <option value="5">5:00</option>
-            <option value="10">10:00</option>
-            <option value="15">15:00</option>
-            <option value="20">20:00</option>
-            <option selected value="25">25:00</option>
-            <option value="30">30:00</option>
-            <option value="35">35:00</option>
-            <option value="40">40:00</option>
-            <option value="45">45:00</option>
-						<option value="50">50:00</option>
-            <option value="55">55:00</option>
-        </select>
-				<br />
-        <button id="resetDuration" title="Reset to the default duration of 25:00">Reset to Default</button>				
-    </div>
+        <div id="changeDuration" data-win-control="WinJS.UI.Flyout" data-win-options="">
+            <h3>Timer Duration</h3>
+            <select id="timerDuration" aria-label="Timer Duration select">
+                <option value="1">1:00</option>
+                <option value="5">5:00</option>
+                <option value="10">10:00</option>
+                <option value="15">15:00</option>
+                <option value="20">20:00</option>
+                <option selected value="25">25:00</option>
+                <option value="30">30:00</option>
+                <option value="35">35:00</option>
+                <option value="40">40:00</option>
+                <option value="45">45:00</option>
+		        <option value="50">50:00</option>
+                <option value="55">55:00</option>
+            </select>
+			        <br />
+            <button id="resetDuration" title="Reset to the default duration of 25:00">Reset to Default</button>				
+        </div>
 
 		<!-- App Bar -->
     <div id="appBar" data-win-control="WinJS.UI.AppBar" aria-label="Command Bar"
@@ -79,7 +87,7 @@
         </button>
         <button data-win-control="WinJS.UI.AppBarCommand" id="barCancel" disabled data-win-options="{label:'Cancel', icon:'clear', section:'selection', tooltip:'Cancel the Timer'}">
         </button>
-				<button data-win-control="WinJS.UI.AppBarCommand" id="barDuration" data-win-options="{label:'Duration', icon:'clock', type:'flyout', flyout:'changeDuration', tooltip:'Change Timer Duration'}"></button>
+		<button data-win-control="WinJS.UI.AppBarCommand" id="barDuration" data-win-options="{label:'Duration', icon:'clock', type:'flyout', flyout:'changeDuration', tooltip:'Change Timer Duration'}"></button>
     </div>
 </body>
 </html>
