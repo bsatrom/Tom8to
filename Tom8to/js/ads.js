@@ -1,7 +1,7 @@
 ﻿(function() {
     var el;
 
-    Observer.publish('Timer.start', function () {
+    Observer.subscribe('Timer.start', function () {
         WinJS.UI.Animation.fadeOut(el);
     });
 
@@ -16,7 +16,11 @@
 
         el = document.getElementById(adElement);
 
-        var adsSdk = new MicrosoftNSJS.Advertising.AdControl(el, { applicationId: 'a0ac85c7-c493-4006-a9f2-d598d3e3dfcf', adUnitId: '10042356' });
+        var adsSdk = new MicrosoftNSJS.Advertising.AdControl(el, { applicationId: 'a0ac85c7-c493-4006-a9f2-d598d3e3dfcf', adUnitId: '10042356' }); 
+        
+        adsSdk.onErrorOccurred = function (sender, evt) {
+           //adsSdk = new MicrosoftNSJS.Advertising.AdControl(el, { applicationId: 'test_client', adUnitId: 'ImageText_320x50' });
+        };
     }
 
     WinJS.Namespace.define("ADS", {

@@ -57,7 +57,7 @@
 	    return _started;
 	  },
 	  paused: function () {
-	    _paused
+	      _paused;
 	  },
 	  initialize: function () {
 	    var timeComponents, time, min, sec;
