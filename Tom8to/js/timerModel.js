@@ -116,6 +116,7 @@
 			}
 			_timer = setInterval(_countDown, TIMEOUT);
 			_started = true;
+			_paused = false;
 
 			timerEvents.start();
 		},
@@ -140,7 +141,7 @@
 	        timerEvents.cancel();
 	    },
 		reset: function (time) {
-			this.stop();
+			this.suspend();
 			_break = false;
 
 			this.initialize(time);
