@@ -169,12 +169,6 @@ section[role="main"] {
 	-ms-animation-timing-function: ease-in-out;
 }
 
-@media screen and (-ms-view-state: fullscreen-landscape) {
-}
-
-@media screen and (-ms-view-state: filled) {
-}
-
 @media screen and (-ms-view-state: snapped) {
 	header[role=banner] {
 		-ms-grid-columns:  10px 1fr auto;
@@ -199,6 +193,14 @@ section[role="main"] {
 	#timer {
 		font-size: 72pt;
 	}
+
+    #trialAd {
+      width: 292px;
+      height: 60px;
+      position: absolute;
+      top: 100px;
+      left: 10px;
+    }
 }
 
 @media screen and (-ms-view-state: fullscreen-portrait) {

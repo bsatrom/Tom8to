@@ -1,5 +1,6 @@
 ﻿(function() {
     var el;
+    var currentApp = Windows.ApplicationModel.Store.CurrentApp;
 
     Observer.subscribe('Timer.start', function () {
         WinJS.UI.Animation.fadeOut(el);
@@ -18,16 +19,18 @@
             throw "Please provide an element for the ad control.";
         }
 
-        el = document.getElementById(adElement);
-        backupEl = document.getElementById("backupAd");
+        if (currentApp.licenseInformation.isTrial) { // Show ads only for trial users
+            el = document.getElementById(adElement);
+            backupEl = document.getElementById("backupAd");
 
-        var adsSdk = new MicrosoftNSJS.Advertising.AdControl(el, {
-            applicationId: "a0ac85c7-c493-4006-a9f2-d598d3e3dfcf",
-            adUnitId: "10042356",
-            isAutoRefreshEnabled: false
-        });
+            var adsSdk = new MicrosoftNSJS.Advertising.AdControl(el, {
+                applicationId: "a0ac85c7-c493-4006-a9f2-d598d3e3dfcf",
+                adUnitId: "10042356",
+                isAutoRefreshEnabled: false
+            });
 
-        adsSdk.refresh();
+            adsSdk.refresh();
+        }
     }
 
     WinJS.Namespace.define("ADS", {
