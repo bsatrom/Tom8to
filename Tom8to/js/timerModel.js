@@ -9,6 +9,7 @@
 	var _timer, _min, _sec;
 	var _started = false;
 	var _paused = false;
+	var _break = false;
 
 	var timerEvents = {
 		init: function () {
@@ -28,6 +29,9 @@
 		},
 		end: function () {
 			Observer.publish('Timer.end');
+		},
+		breakOver: function () {
+		    Observer.publish('Timer.breakOver');
 		}
 	};
 
@@ -45,7 +49,22 @@
 				_sec = 0;
 
 				clearInterval(_timer);
-				timerEvents.end();
+
+				if (!_break) {
+				   timerEvents.end();
+				    
+				    setTimeout(function () {
+				        _break = true;
+
+				        Countdown.initialize(BREAK_MINUTES);
+				        _timer = setInterval(_countDown, TIMEOUT);
+				        timerEvents.breakTime();
+				    }, 8000);
+				} else {
+				    _break = false;
+
+				    timerEvents.breakOver();
+				}
 			} else {
 				_sec = 59;
 				_min = _min - 1;
@@ -60,7 +79,7 @@
 	    return _started;
 	  },
 	  paused: function () {
-	      _paused;
+	    return _paused;
 	  },
 	  initialize: function () {
 	    var timeComponents, time, min, sec;
@@ -100,11 +119,16 @@
 
 			timerEvents.start();
 		},
+		suspend: function () {
+		    if (_timer) {
+		        clearInterval(_timer);
+		    }
+		},
 		stop: function () {
 			if (_timer) {
 				clearInterval(_timer);
 			}
-			_paused = true;
+            _paused = true;
 		},
 		cancel: function () {
 	        if (_timer) {
@@ -117,7 +141,8 @@
 	    },
 		reset: function (time) {
 			this.stop();
-			
+			_break = false;
+
 			this.initialize(time);
 			this.start();
 		}

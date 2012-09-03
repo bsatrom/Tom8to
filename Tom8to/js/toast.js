@@ -22,7 +22,12 @@
     toastNotifier = Windows.UI.Notifications.ToastNotificationManager.createToastNotifier();
   }
 
-  function initTile() {
+
+  var noticeText = {
+      tileOne: "", 
+  };
+
+  function initTile(noticeText) {
     var template = Windows.UI.Notifications.TileTemplateType.tileWideText01;
     tileXml = Windows.UI.Notifications.TileUpdateManager.getTemplateContent(template);
 

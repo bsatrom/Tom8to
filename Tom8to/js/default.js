@@ -120,27 +120,43 @@
     }
 
     function createTimerSubscriptions() {
-    	Observer.subscribe('Timer.tick', function (topics, data) {
-    		timer.innerText = data;
-    	});
+        Observer.subscribe('Timer.tick', function (topics, data) {
+            timer.innerText = data;
+        });
 
-    	Observer.subscribe('Timer.init', function (topics, data) {
-    		timer.innerText = data;
-    	});
+        Observer.subscribe('Timer.init', function (topics, data) {
+            timer.innerText = data;
+        });
 
-    	Observer.subscribe('Timer.end', function () {
-    	    if (alarm.src) {
-    		    alarm.play();
-    	    }
+        Observer.subscribe('Timer.end', function () {
+            if (alarm.src) {
+                alarm.play();
+            }
 
-    	    // triggers pulse animation
-    		WinJS.Utilities.addClass(timer, 'pulse');
-    		
-    		setTimeout(function () {
-					WinJS.Utilities.removeClass(timer, 'pulse');
-    			Tom8to.resetToStart();
-    		}, 10000);
+            pulse();
+        });
+
+        Observer.subscribe('Timer.break', function() {
+            WinJS.Utilities.addClass(timer, 'breakText');
+        });
+
+    	Observer.subscribe('Timer.breakOver', function () {
+            WinJS.Utilities.removeClass(timer, 'breakText');
+    	    pulse(Tom8to.resetToStart);
     	});
+    }
+
+    function pulse(callback) {
+        // triggers pulse animation
+        WinJS.Utilities.addClass(timer, 'pulse');
+
+        setTimeout(function () {
+            WinJS.Utilities.removeClass(timer, 'pulse');
+
+            if (callback) {
+                callback();
+            }
+        }, 10000);
     }
   
     function createSettingsSubscriptions() {
@@ -164,6 +180,7 @@
     }
 
     function stopAlarm() {
+      WinJS.Utilities.removeClass(timer, 'breakText');
       alarm.pause();
     }
     

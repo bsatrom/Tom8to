@@ -41,12 +41,14 @@
       state["timeRemaining"] = Countdown.time();
       state["checkpointTime"] = Date.now();
 
-      Observer.publish("Toast.add", timeToSeconds(Countdown.time()));
+      if (!Countdown.paused()) {
+          Observer.publish("Toast.add", timeToSeconds(Countdown.time()));
+      }
     }
   });
 
   webApp.addEventListener("suspending", function () {
-    Countdown.stop();
+    Countdown.suspend();
   });
 
   webApp.addEventListener("resuming", function () {

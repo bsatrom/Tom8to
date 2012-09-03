@@ -98,6 +98,10 @@ section[role="main"] {
 	color: rgba(149, 17, 17, 1);
 }
 
+.breakText {
+    color: rgb(212, 229, 81);
+}
+
 #playContainer {
 	width:  148px;
 	text-align: right;
