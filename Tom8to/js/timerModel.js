@@ -23,6 +23,9 @@
 		breakTime: function () {
 			Observer.publish('Timer.break', BREAK_MINUTES);
 		},
+		cancel: function () {
+		    Observer.publish('Timer.cancel');
+		},
 		end: function () {
 			Observer.publish('Timer.end');
 		}
@@ -103,6 +106,15 @@
 			}
 			_paused = true;
 		},
+		cancel: function () {
+	        if (_timer) {
+	            clearInterval(_timer);
+	        }
+
+	        _paused = true;
+
+	        timerEvents.cancel();
+	    },
 		reset: function (time) {
 			this.stop();
 			

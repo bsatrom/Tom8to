@@ -71,7 +71,7 @@
         appBar.winControl.hide();
         stopAlarm(); //if a previous alarm is still playing, pause it
 
-        Tom8to.resetToStart();
+        Tom8to.cancelCountdown();
       });
 
       changeDuration.addEventListener('change', function () {
@@ -129,11 +129,11 @@
     	});
 
     	Observer.subscribe('Timer.end', function () {
-    		if (alarm.src) {
-    			alarm.play();
-    	  }
+    	    if (alarm.src) {
+    		    alarm.play();
+    	    }
 
-    	  // triggers pulse animation
+    	    // triggers pulse animation
     		WinJS.Utilities.addClass(timer, 'pulse');
     		
     		setTimeout(function () {
@@ -210,12 +210,22 @@
       resetToStart: function() {
     	  UIController.transition(play, hidden).then(function () {
     	    UIController.transition(pauseContainer, playContainer).done(function () {
-    	      Countdown.stop();
+    	        Countdown.stop();
     	        Countdown.initialize(timerDuration);
     	    });
     	  });
     	  toggleAppBarButtons();
     	  Observer.publish('Toast.remove');
+      },
+      cancelCountdown: function () {
+          UIController.transition(play, hidden).then(function () {
+              UIController.transition(pauseContainer, playContainer).done(function () {
+                  Countdown.cancel();
+                  Countdown.initialize(timerDuration);
+              });
+          });
+          toggleAppBarButtons();
+          Observer.publish('Toast.remove');
       },
       startCountdown: function () {
     	  UIController.transition(hidden, play);
