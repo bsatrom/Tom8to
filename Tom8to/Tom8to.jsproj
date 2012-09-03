@@ -80,9 +80,9 @@
     <Content Include="js\share.js" />
     <Content Include="js\timerModel.js" />
     <Content Include="js\uiController.js" />
+    <Content Include="Package.StoreAssociation.xml" />
     <Content Include="Tom8to_StoreKey.pfx" />
     <Content Include="Tom8to_TemporaryKey.pfx" />
-    <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0, Version=1.0" />
