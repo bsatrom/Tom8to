@@ -33,6 +33,8 @@
     function addUIEvents() {
       play.addEventListener('click', function () {
         stopAlarm(); //if a previous alarm is still playing, pause it
+
+        Countdown.setBreak(false);
         Tom8to.startCountdown();
         toggleAppBarButtons();
       });
@@ -55,6 +57,7 @@
           UIController.transition(pauseContainer, playContainer);
         }
 
+        Countdown.setBreak(false);
         Countdown.reset(container.values["timerDuration"]);
         Observer.publish('Toast.remove');
       });
@@ -210,7 +213,7 @@
         }
 
         Observer.publish('App.loaded');
-      }
+      } 
     });
 
     app.addEventListener('settings', function (e) {
@@ -228,6 +231,7 @@
     	  UIController.transition(play, hidden).then(function () {
     	    UIController.transition(pauseContainer, playContainer).done(function () {
     	        Countdown.stop();
+    	        Countdown.setBreak(false);
     	        Countdown.initialize(timerDuration);
     	    });
     	  });
@@ -238,6 +242,7 @@
           UIController.transition(play, hidden).then(function () {
               UIController.transition(pauseContainer, playContainer).done(function () {
                   Countdown.cancel();
+                  Countdown.setBreak(false);
                   Countdown.initialize(timerDuration);
               });
           });

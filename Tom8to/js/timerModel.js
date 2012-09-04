@@ -81,6 +81,15 @@
 	  paused: function () {
 	    return _paused;
 	  },
+	  setBreak: function (breakVal) {
+	    _break = breakVal;
+	  },
+	  getBreak: function () {
+	    return _break;
+	  },
+	  breakDuration: function () {
+	    return BREAK_MINUTES;
+	  },
 	  initialize: function () {
 	    var timeComponents, time, min, sec;
 	    
@@ -129,7 +138,8 @@
 			if (_timer) {
 				clearInterval(_timer);
 			}
-            _paused = true;
+
+			_paused = true;
 		},
 		cancel: function () {
 	        if (_timer) {
