@@ -50,6 +50,13 @@
         Countdown.start();
       });
 
+      timer.addEventListener('click', function () {
+        //If the alarm is currently playing, clicking on the timer text will pause it
+        if (!alarm.paused) {
+          alarm.pause();
+        }
+      });
+
       reset.addEventListener('click', function () {
         stopAlarm(); //if a previous alarm is still playing, pause it
 
@@ -163,9 +170,13 @@
     }
   
     function createSettingsSubscriptions() {
-    	Observer.subscribe('Settings.AlarmChange', function () {
-    		alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
-    	});
+      Observer.subscribe('Settings.AlarmChange', function () {
+        if (container.values["alarmSound"] === "none") {
+          alarm.src = "";
+        } else {
+          alarm.src = "audio/" + container.values["alarmSound"] + ".mp3";
+        }
+      });
 
     	Observer.subscribe('Settings.FontChange', function () {
     		timer.className = container.values["alarmFont"];
