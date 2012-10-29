@@ -25,9 +25,17 @@
 		alarmSound.addEventListener('change', function () {
 			container.values["alarmSound"] = alarmSound.value;
 
+			if (alarmSound.value !== 'none') {
+			  alarmSoundPreview.src = "audio/" + alarmSound.value + ".mp3";
+			}
+
 			Observer.publish('Settings.AlarmChange');
 		});
 
+		alarmSoundPreview.oncanplay = function () {
+		  alarmSoundPreview.play();		  
+		};
+    
 		reset.addEventListener('click', function () {
 			container.values["alarmSound"] = "alarmRing";
 			container.values["alarmFont"] = "segoeUI";

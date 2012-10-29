@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="42255CarrotPantsStudios.Tom8to" Version="1.1.0.0" Publisher="CN=1436C460-4FDB-434E-804C-0AAB96816885" />
+  <Identity Name="42255CarrotPantsStudios.Tom8to" Version="1.2.0.0" Publisher="CN=1436C460-4FDB-434E-804C-0AAB96816885" />
   <Properties>
     <DisplayName>Tom8to</DisplayName>
     <Description>Tom8to</Description>
