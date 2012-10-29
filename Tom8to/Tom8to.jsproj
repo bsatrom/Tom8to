@@ -73,6 +73,7 @@
     <Content Include="js\ads.js" />
     <Content Include="js\backgroundAudio.js" />
     <Content Include="js\default.js" />
+    <Content Include="js\displayManager.js" />
     <Content Include="js\observer.js" />
     <Content Include="js\lifecycleManager.js" />
     <Content Include="js\toast.js" />

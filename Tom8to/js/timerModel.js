@@ -31,7 +31,7 @@
 			Observer.publish('Timer.end');
 		},
 		breakOver: function () {
-		    Observer.publish('Timer.breakOver');
+		  Observer.publish('Timer.breakOver');
 		}
 	};
 
