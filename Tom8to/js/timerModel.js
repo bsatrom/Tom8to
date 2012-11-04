@@ -142,14 +142,14 @@
 			_paused = true;
 		},
 		cancel: function () {
-	        if (_timer) {
-	            clearInterval(_timer);
-	        }
+	      if (_timer) {
+	          clearInterval(_timer);
+	      }
 
-	        _paused = true;
+	      _paused = true;
 
-	        timerEvents.cancel();
-	    },
+	      timerEvents.cancel();
+	  },
 		reset: function (time) {
 			this.suspend();
 			_break = false;
